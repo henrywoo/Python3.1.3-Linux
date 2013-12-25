@@ -22,6 +22,7 @@
 #ifndef WITH_TSC
 
 #define READ_TIMESTAMP(var)
+#define REGISTER2
 
 #else
 
@@ -37,7 +38,7 @@ typedef unsigned long long uint64;
 static void
 ppc_getcounter(uint64 *v)
 {
-    register unsigned long tbu, tb, tbu2;
+    REGISTER2 unsigned long tbu, tb, tbu2;
 
   loop:
     asm volatile ("mftbu %0" : "=r" (tbu) );
@@ -95,7 +96,8 @@ void dump_tsc(int opcode, int ticked, uint64 inst0, uint64 inst1,
 /* Turn this on if your compiler chokes on the big switch: */
 /* #define CASE_TOO_BIG 1 */
 
-#ifdef Py_DEBUG
+//#ifdef Py_DEBUG // fuheng
+#if 1
 /* For debugging the interpreter: */
 #define LLTRACE  1      /* Low-level trace feature */
 #define CHECKEXC 1      /* Double-check exception checking */
@@ -690,18 +692,18 @@ PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)
 #ifdef DXPAIRS
     int lastopcode = 0;
 #endif
-    register PyObject **stack_pointer;  /* Next free slot in value stack */
-    register unsigned char *next_instr;
-    register int opcode;        /* Current opcode */
-    register int oparg;         /* Current opcode argument, if any */
-    register enum why_code why; /* Reason for block stack unwind */
-    register int err;           /* Error status -- nonzero if error */
-    register PyObject *x;       /* Result object -- NULL if error */
-    register PyObject *v;       /* Temporary objects popped off stack */
-    register PyObject *w;
-    register PyObject *u;
-    register PyObject *t;
-    register PyObject **fastlocals, **freevars;
+    REGISTER2 PyObject **stack_pointer;  /* Next free slot in value stack */
+    REGISTER2 unsigned char *next_instr;
+    REGISTER2 int opcode;        /* Current opcode */
+    REGISTER2 int oparg;         /* Current opcode argument, if any */
+    REGISTER2 enum why_code why; /* Reason for block stack unwind */
+    REGISTER2 int err;           /* Error status -- nonzero if error */
+    REGISTER2 PyObject *x;       /* Result object -- NULL if error */
+    REGISTER2 PyObject *v;       /* Temporary objects popped off stack */
+    REGISTER2 PyObject *w;
+    REGISTER2 PyObject *u;
+    REGISTER2 PyObject *t;
+    REGISTER2 PyObject **fastlocals, **freevars;
     PyObject *retval = NULL;            /* Return value */
     PyThreadState *tstate = PyThreadState_GET();
     PyCodeObject *co;
@@ -811,16 +813,17 @@ PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)
 #else
 #define FAST_DISPATCH() \
     { \
-        if (!_Py_TracingPossible) { \
-            f->f_lasti = INSTR_OFFSET(); \
-            goto *opcode_targets[*next_instr++]; \
-        } \
-        goto fast_next_opcode; \
+    if (!_Py_TracingPossible) { \
+    f->f_lasti = INSTR_OFFSET(); \
+    goto *opcode_targets[*next_instr++]; \
+    } \
+    goto fast_next_opcode; \
     }
 #endif
 
 #else
-#define TARGET(op) case op:
+static int _fuhengcount = 0;
+#define TARGET(op) case op:{printf("%d:%s\n",++_fuhengcount,#op);}
 #define TARGET_WITH_IMPL(op, impl) \
     /* silence compiler warnings about `impl` unused */ \
     if (0) goto impl; \
@@ -943,7 +946,8 @@ PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)
 #define BASIC_PUSH(v)     (*stack_pointer++ = (v))
 #define BASIC_POP()       (*--stack_pointer)
 
-#ifdef LLTRACE
+//#ifdef LLTRACE//fuheng
+#if 1
 #define PUSH(v)         { (void)(BASIC_PUSH(v), \
                           lltrace && prtrace(TOP(), "push")); \
                           assert(STACK_LEVEL() <= co->co_stacksize); }
@@ -1245,7 +1249,7 @@ PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)
         /* Extract opcode and argument */
 
         opcode = NEXTOP();
-        oparg = 0;   /* allows oparg to be stored in a register because
+        oparg = 0;   /* allows oparg to be stored in a REGISTER2 because
             it doesn't have to be remembered across a full loop */
         if (HAS_ARG(opcode))
             oparg = NEXTARG();
@@ -2939,9 +2943,9 @@ PyEval_EvalCodeEx(PyCodeObject *co, PyObject *globals, PyObject *locals,
            PyObject **args, int argcount, PyObject **kws, int kwcount,
            PyObject **defs, int defcount, PyObject *kwdefs, PyObject *closure)
 {
-    register PyFrameObject *f;
-    register PyObject *retval = NULL;
-    register PyObject **fastlocals, **freevars;
+    REGISTER2 PyFrameObject *f;
+    REGISTER2 PyObject *retval = NULL;
+    REGISTER2 PyObject **fastlocals, **freevars;
     PyThreadState *tstate = PyThreadState_GET();
     PyObject *x, *u;
 
@@ -3438,7 +3442,7 @@ static int
 call_trace(Py_tracefunc func, PyObject *obj, PyFrameObject *frame,
            int what, PyObject *arg)
 {
-    register PyThreadState *tstate = frame->f_tstate;
+    REGISTER2 PyThreadState *tstate = frame->f_tstate;
     int result;
     if (tstate->tracing)
         return 0;
@@ -4116,7 +4120,7 @@ _PyEval_SliceIndex(PyObject *v, Py_ssize_t *pi)
                          "BaseException is not allowed"
 
 static PyObject *
-cmp_outcome(int op, register PyObject *v, register PyObject *w)
+cmp_outcome(int op, REGISTER2 PyObject *v, REGISTER2 PyObject *w)
 {
     int res = 0;
     switch (op) {

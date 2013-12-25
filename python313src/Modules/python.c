@@ -9,7 +9,8 @@
 
 #ifdef MS_WINDOWS
 int
-wmain(int argc, wchar_t **argv)
+//wmain(int argc, wchar_t **argv)
+wmain(int argc, wchar_t *argv[])
 {
     return Py_Main(argc, argv);
 }

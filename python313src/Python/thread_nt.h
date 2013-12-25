@@ -21,7 +21,7 @@ InitializeNonRecursiveMutex(PNRMUTEX mutex)
 {
     mutex->owned = -1 ;  /* No threads have entered NonRecursiveMutex */
     mutex->thread_id = 0 ;
-    mutex->hevent = CreateEvent(NULL, FALSE, FALSE, NULL) ;
+    mutex->hevent = CreateEvent(NULL, FALSE, FALSE, NULL) ;//fuheng -GIL
     return mutex->hevent != NULL ;      /* TRUE if the mutex is created */
 }
 
@@ -68,7 +68,7 @@ LeaveNonRecursiveMutex(PNRMUTEX mutex)
 PNRMUTEX
 AllocNonRecursiveMutex(void)
 {
-    PNRMUTEX mutex = (PNRMUTEX)malloc(sizeof(NRMUTEX)) ;
+    PNRMUTEX mutex = (PNRMUTEX)malloc(sizeof(NRMUTEX)) ;//fuheng - GIL!
     if (mutex && !InitializeNonRecursiveMutex(mutex))
     {
         free(mutex) ;
