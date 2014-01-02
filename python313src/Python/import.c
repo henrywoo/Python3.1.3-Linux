@@ -644,6 +644,7 @@ _PyImport_FindExtension(char *name, char *filename)
 PyObject *
 PyImport_AddModule(const char *name)
 {
+    printf("module name: %s\n",name);
     PyObject *modules = PyImport_GetModuleDict();
     PyObject *m;
 
@@ -1780,6 +1781,7 @@ static int init_builtin(char *); /* Forward */
 static PyObject *
 load_module(char *name, FILE *fp, char *pathname, int type, PyObject *loader)
 {
+    printf("load_module fpath=%s\n",pathname);
     PyObject *modules;
     PyObject *m;
     int err;

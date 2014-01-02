@@ -122,7 +122,7 @@ static PyObject * load_args(PyObject ***, int);
 #define CALL_FLAG_KW 2
 
 #ifdef LLTRACE
-static int lltrace;
+static int lltrace=1;
 static int prtrace(PyObject *, char *);
 #endif
 static int call_trace(Py_tracefunc, PyObject *, PyFrameObject *,
@@ -823,7 +823,8 @@ PyEval_EvalFrameEx(PyFrameObject *f, int throwflag)
 
 #else
 static int _fuhengcount = 0;
-#define TARGET(op) case op:{printf("%d:%s\n",++_fuhengcount,#op);}
+//#define TARGET(op) case op:{printf("%d:%s\n",++_fuhengcount,#op);}
+#define TARGET(op) case op:
 #define TARGET_WITH_IMPL(op, impl) \
     /* silence compiler warnings about `impl` unused */ \
     if (0) goto impl; \
@@ -948,9 +949,11 @@ static int _fuhengcount = 0;
 
 //#ifdef LLTRACE//fuheng
 #if 1
-#define PUSH(v)         { (void)(BASIC_PUSH(v), \
+//#define PUSH(v)         { (void)(BASIC_PUSH(v), \
                           lltrace && prtrace(TOP(), "push")); \
                           assert(STACK_LEVEL() <= co->co_stacksize); }
+
+#define PUSH(v)         { *stack_pointer++ = (v);assert(STACK_LEVEL() <= co->co_stacksize); }
 #define POP()           ((void)(lltrace && prtrace(TOP(), "pop")), \
                          BASIC_POP())
 #define STACKADJ(n)     { (void)(BASIC_STACKADJ(n), \

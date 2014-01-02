@@ -65,7 +65,8 @@ int main(int argc, char*argv[])
         strcat_s(command, CMD_SIZE, "-MD ");
     }
     else if (strcmp(argv[1], "Debug") == 0) {
-        strcat_s(command, CMD_SIZE, "-D_DEBUG -MDd ");
+        strcat_s(command, CMD_SIZE,
+          "-D_DEBUG -D_LLTRACE -D_WITH_PYMALLOC -D_PYMALLOC_DEBUG -MDd ");
     }
     else if (strcmp(argv[1], "ReleaseItanium") == 0) {
         strcat_s(command, CMD_SIZE, "-MD /USECL:MS_ITANIUM ");

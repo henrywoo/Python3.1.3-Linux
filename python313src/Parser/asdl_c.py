@@ -322,6 +322,8 @@ class FunctionVisitor(PrototypeVisitor):
             emit("p->%s = %s;" % (argname, argname), 1)
 
     def emit_body_struct(self, name, args, attrs):
+        print(name)
+        print(args)
         def emit(s, depth=0, reflow=True):
             self.emit(s, depth, reflow)
         for argtype, argname, opt in args:
@@ -1000,6 +1002,7 @@ class ObjVisitor(PickleVisitor):
             self.emit("case %s:" % t.name, 2)
             self.emit("Py_INCREF(%s_singleton);" % t.name, 3)
             self.emit("return %s_singleton;" % t.name, 3)
+        print(name)
         self.emit("default:" % name, 2)
         self.emit('/* should never happen, but just in case ... */', 3)
         code = "PyErr_Format(PyExc_SystemError, \"unknown %s found\");" % name
@@ -1187,6 +1190,7 @@ if __name__ == "__main__":
     INC_DIR = ''
     SRC_DIR = ''
     opts, args = getopt.getopt(sys.argv[1:], "h:c:")
+    print (opts)
     if len(opts) != 1:
         sys.stdout.write("Must specify exactly one output file\n")
         sys.exit(1)
