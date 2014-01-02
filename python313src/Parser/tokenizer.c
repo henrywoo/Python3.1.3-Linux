@@ -1,4 +1,4 @@
-
+﻿
 /* Tokenizer implementation */
 
 #include "Python.h"
@@ -132,7 +132,7 @@ tok_new(void)
     tok->tabsize = TABSIZE;
     tok->indent = 0;
     tok->indstack[0] = 0;
-    tok->atbol = 1;
+    tok->atbol = 1;//如果tok_state::atbol(at beginning of line)非0，说明当前处于一行的开始，否则不做处理。
     tok->pendin = 0;
     tok->prompt = tok->nextprompt = NULL;
     tok->lineno = 0;
@@ -821,7 +821,7 @@ tok_nextc(register struct tok_state *tok)
         }
         if (tok->done != E_OK)
             return EOF;
-        if (tok->fp == NULL) {
+        if (tok->fp == NULL) {// 字符串模式
             char *end = strchr(tok->inp, '\n');
             if (end != NULL)
                 end++;
@@ -839,7 +839,7 @@ tok_nextc(register struct tok_state *tok)
             tok->inp = end;
             return Py_CHARMASK(*tok->cur++);
         }
-        if (tok->prompt != NULL) {
+        if (tok->prompt != NULL) {// 交互模式
             char *newtok = PyOS_Readline(stdin, stdout, tok->prompt);
 #ifndef PGEN
             if (tok->encoding && newtok && *newtok) {
@@ -907,7 +907,7 @@ tok_nextc(register struct tok_state *tok)
                 tok->end = tok->inp + 1;
             }
         }
-        else {
+        else {// 磁盘文件模式
             int done = 0;
             Py_ssize_t cur = 0;
             char *pt;

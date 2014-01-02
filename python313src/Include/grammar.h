@@ -1,5 +1,4 @@
-
-/* Grammar interface */
+ï»¿/* Grammar interface */
 
 #ifndef Py_GRAMMAR_H
 #define Py_GRAMMAR_H
@@ -10,13 +9,13 @@ extern "C" {
 #include "bitset.h" /* Sigh... */
 
 /* A label of an arc */
-/*Label¶¨ÒåÁË´Ó×´Ì¬×ªÒÆµ½ÁíÍâÒ»¸ö×´Ì¬Ëù¾­¹ıµÄ±ßËù¶ÔÓ¦µÄ·ûºÅ£¬¿ÉÒÔÊÇ
-·ÇÖÕ½á·û(Non-Terminal)£¬Ò²¿ÉÒÔÊÇÖÕ½á·û(Terminal)¡£LabelÒ»¶¨ÒÀ¸½ÓÚÒ»Ìõ
-»òÕß¶àÌõ±ß¡£Lb_type´ú±í·ûºÅµÄÀàĞÍ£¬ÈçÖÕ½á·ûNAME£¬´ú±íÒ»¸ö±êÊ¾·û£¬»ò
-Õß·ÇÖÕ½á·ûstmt£¬´ú±íÒ»¸öÓï¾ä£¬µÈµÈ¡£Lb_str´ú±í¾ßÌå·ûºÅµÄÄÚÈİ¡£±ÈÈç£¬
-label (NAME, ¡°if¡±)±íÊ¾µ±parser´¦ÓÚÄ³¸ö×´Ì¬£¬Èç¹ûÓöµ½ÁË¡¯if¡¯Õâ¸ö±êÊ¾·û£¬
-ÔòÒÆ¶¯ÁíÍâÒ»¸ö×´Ì¬¡£Èç¹ûlabelÊÇÒ»¸ö·ÇÖÕ½á·ûµÄ»°£¬Çé¿öÔòÒª¸´ÔÓÒ»Ğ©£¬
-ĞèÒªÌø×ªµ½¸Ã·ÇÖÕ½á·û¶ÔÓ¦µÄÁíÍâÒ»¸öDFA£¬Çë²Î¿´±àÒëÆ÷Ïà¹ØÊé¼®*/
+/*Labelå®šä¹‰äº†ä»çŠ¶æ€è½¬ç§»åˆ°å¦å¤–ä¸€ä¸ªçŠ¶æ€æ‰€ç»è¿‡çš„è¾¹æ‰€å¯¹åº”çš„ç¬¦å·ï¼Œå¯ä»¥æ˜¯
+éç»ˆç»“ç¬¦(Non-Terminal)ï¼Œä¹Ÿå¯ä»¥æ˜¯ç»ˆç»“ç¬¦(Terminal)ã€‚Labelä¸€å®šä¾é™„äºä¸€æ¡
+æˆ–è€…å¤šæ¡è¾¹ã€‚Lb_typeä»£è¡¨ç¬¦å·çš„ç±»å‹ï¼Œå¦‚ç»ˆç»“ç¬¦NAMEï¼Œä»£è¡¨ä¸€ä¸ªæ ‡ç¤ºç¬¦ï¼Œæˆ–
+è€…éç»ˆç»“ç¬¦stmtï¼Œä»£è¡¨ä¸€ä¸ªè¯­å¥ï¼Œç­‰ç­‰ã€‚Lb_strä»£è¡¨å…·ä½“ç¬¦å·çš„å†…å®¹ã€‚æ¯”å¦‚ï¼Œ
+label (NAME, â€œifâ€)è¡¨ç¤ºå½“parserå¤„äºæŸä¸ªçŠ¶æ€ï¼Œå¦‚æœé‡åˆ°äº†â€™ifâ€™è¿™ä¸ªæ ‡ç¤ºç¬¦ï¼Œ
+åˆ™ç§»åŠ¨å¦å¤–ä¸€ä¸ªçŠ¶æ€ã€‚å¦‚æœlabelæ˜¯ä¸€ä¸ªéç»ˆç»“ç¬¦çš„è¯ï¼Œæƒ…å†µåˆ™è¦å¤æ‚ä¸€äº›ï¼Œ
+éœ€è¦è·³è½¬åˆ°è¯¥éç»ˆç»“ç¬¦å¯¹åº”çš„å¦å¤–ä¸€ä¸ªDFAï¼Œè¯·å‚çœ‹ç¼–è¯‘å™¨ç›¸å…³ä¹¦ç±*/
 typedef struct {
     int		 lb_type;
     char	*lb_str;
@@ -25,26 +24,25 @@ typedef struct {
 #define EMPTY 0		/* Label number 0 is by definition the empty label */
 
 /* A list of labels */
-
 typedef struct {
     int		 ll_nlabels;
     label	*ll_label;
 } labellist;
 
 /* An arc from one state to another */
-/*arc´ú±íDFAÖĞÒ»¸ö×´Ì¬µ½ÁíÒ»¸ö×´Ì¬µÄ»¡/±ß¡£A_lbl´ú±íarcËù¶ÔÓ¦µÄLabel£¬
-¶øa_arrow¼ÇÂ¼ÁËarcµÄÄ¿±ê×´Ì¬¡£ÒòÎªarcÊÇÊôÓÚÄ³¸ö×´Ì¬µÄ£¬
-Òò´Ë²»ÓÃ¼ÇÂ¼arcµÄÆğÊ¼×´Ì¬*/
+/*arcä»£è¡¨DFAä¸­ä¸€ä¸ªçŠ¶æ€åˆ°å¦ä¸€ä¸ªçŠ¶æ€çš„å¼§/è¾¹ã€‚A_lblä»£è¡¨arcæ‰€å¯¹åº”çš„Labelï¼Œ
+è€Œa_arrowè®°å½•äº†arcçš„ç›®æ ‡çŠ¶æ€ã€‚å› ä¸ºarcæ˜¯å±äºæŸä¸ªçŠ¶æ€çš„ï¼Œ
+å› æ­¤ä¸ç”¨è®°å½•arcçš„èµ·å§‹çŠ¶æ€*/
 typedef struct {
     short	a_lbl;		/* Label of this arc */
     short	a_arrow;	/* State where this arc goes to */
 } arc;
 
 /* A state in a DFA */
-/*State´ú±í×ÅDFAÖĞµÄ×´Ì¬½Úµã¡£Ã¿¸östate¼ÇÂ¼ÁË´Ó¸Ãstate³ö·¢µÄ±ßµÄ¼¯ºÏ£¬
-´æ·ÅÔÚs_arcÖĞ¡£ÆäËûµÄÒ»Ğ©³ÉÔ±s_lower, s_upper, s_accel, s_accept¼ÇÂ¼ÁË
-stateËù¶ÔÓ¦µÄAccelerator£¬Æä×÷ÓÃ»áÔÚºóÃæ½²Êö¡£×¢ÒâAcceleratorĞÅÏ¢²¢Ã»
-ÓĞ¶¨ÒåÔÚgraminit.cÖĞ£¬¶øÊÇÔÚÔËĞĞÊ±¼ÆËã³öÀ´µÄ*/
+/*Stateä»£è¡¨ç€DFAä¸­çš„çŠ¶æ€èŠ‚ç‚¹ã€‚æ¯ä¸ªstateè®°å½•äº†ä»è¯¥stateå‡ºå‘çš„è¾¹çš„é›†åˆï¼Œ
+å­˜æ”¾åœ¨s_arcä¸­ã€‚å…¶ä»–çš„ä¸€äº›æˆå‘˜s_lower, s_upper, s_accel, s_acceptè®°å½•äº†
+stateæ‰€å¯¹åº”çš„Acceleratorï¼Œå…¶ä½œç”¨ä¼šåœ¨åé¢è®²è¿°ã€‚æ³¨æ„Acceleratorä¿¡æ¯å¹¶æ²¡
+æœ‰å®šä¹‰åœ¨graminit.cä¸­ï¼Œè€Œæ˜¯åœ¨è¿è¡Œæ—¶è®¡ç®—å‡ºæ¥çš„*/
 typedef struct {
     int		 s_narcs;
     arc		*s_arc;		/* Array of arcs */
@@ -57,10 +55,10 @@ typedef struct {
 } state;
 
 /* A DFA */
-/*DFA½á¹¹ÖĞ¼ÇÂ¼ÁËÆğÊ¼×´Ì¬d_initialºÍËùÓĞ×´Ì¬µÄ¼¯ºÏd_state¡£d_first¼ÇÂ¼
-ÁË¸ÃDFAËù¶ÔÓ¦µÄ·ÇÖÕ½á·ûµÄfirstset£¬Ò²¾ÍÊÇËµ£¬µ±Óöµ½firstsetÖĞµÄÖÕ½á·û
-µÄÊ±ºò£¬±ãĞèÒªÌø×ªµ½´ËDFAÖĞ¡£d_firstÔÚºóÃæ¼ÆËãAcceleratorsµÄÊ±ºò»á±»
-ÓÃµ½*/
+/*DFAç»“æ„ä¸­è®°å½•äº†èµ·å§‹çŠ¶æ€d_initialå’Œæ‰€æœ‰çŠ¶æ€çš„é›†åˆd_stateã€‚d_firstè®°å½•
+äº†è¯¥DFAæ‰€å¯¹åº”çš„éç»ˆç»“ç¬¦çš„firstsetï¼Œä¹Ÿå°±æ˜¯è¯´ï¼Œå½“é‡åˆ°firstsetä¸­çš„ç»ˆç»“ç¬¦
+çš„æ—¶å€™ï¼Œä¾¿éœ€è¦è·³è½¬åˆ°æ­¤DFAä¸­ã€‚d_firståœ¨åé¢è®¡ç®—Acceleratorsçš„æ—¶å€™ä¼šè¢«
+ç”¨åˆ°*/
 typedef struct {
     int		 d_type;	/* Non-terminal this represents */
     char	*d_name;	/* For printing */
@@ -71,10 +69,10 @@ typedef struct {
 } dfa;
 
 /* A grammar */
-/*Grammar´ú±íÁËPythonµÄÕû¸öÓï·¨£¬¼ÇÂ¼ÁËËùÓĞµÄDFAºÍËùÓĞµÄlabel¡£G_start
-ÔòÊÇPythonÓï·¨µÄÆğÊ¼symbol£¬Ò»°ãÊÇsingle_input¡£²»¹ıÊµ¼ÊµÄÆğÊ¼symbol¿É
-ÒÔÔÚ´´½¨ParserµÄÊ±ºòÖ¸¶¨£¬¿ÉÒÔÊÇsingle_input, file_input, eval_inputÖĞ
-µÄÒ»¸ö*/
+/*Grammarä»£è¡¨äº†Pythonçš„æ•´ä¸ªè¯­æ³•ï¼Œè®°å½•äº†æ‰€æœ‰çš„DFAå’Œæ‰€æœ‰çš„labelã€‚G_start
+åˆ™æ˜¯Pythonè¯­æ³•çš„èµ·å§‹symbolï¼Œä¸€èˆ¬æ˜¯single_inputã€‚ä¸è¿‡å®é™…çš„èµ·å§‹symbolå¯
+ä»¥åœ¨åˆ›å»ºParserçš„æ—¶å€™æŒ‡å®šï¼Œå¯ä»¥æ˜¯single_input, file_input, eval_inputä¸­
+çš„ä¸€ä¸ª*/
 typedef struct {
     int		 g_ndfas;
     dfa		*g_dfa;		/* Array of DFAs */
@@ -108,3 +106,4 @@ void printnonterminals(grammar *g, FILE *fp);
 }
 #endif
 #endif /* !Py_GRAMMAR_H */
+
