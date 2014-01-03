@@ -81,10 +81,10 @@ printtree(parser_state *ps)
     printf("Tokens:\n");
     showtree(ps->p_grammar, ps->p_tree);
     printf("\n");
+    printf("Listing:\n");
+    PyNode_ListTree(ps->p_tree);
+    printf("\n");
   }
-  printf("Listing:\n");
-  PyNode_ListTree(ps->p_tree);
-  printf("\n");
 }
 
 #endif /* Py_DEBUG */

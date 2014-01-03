@@ -56,8 +56,11 @@ static char *usage_line =
 "usage: %ls [option] ... [-c cmd | -m mod | file | -] [arg] ...\n";
 
 /* Long usage message, split into parts < 512 bytes */
-static char *usage_1 = "\
+static char *usage_0 = "\
 Options and arguments (and corresponding environment variables):\n\
+-l     : check syntax only\n\
+";
+static char *usage_1 = "\
 -b     : issue warnings about str(bytes_instance), str(bytearray_instance)\n\
          and comparing bytes/bytearray with str. (-bb: issue errors)\n\
 -B     : don't write .py[co] files on import; also PYTHONDONTWRITEBYTECODE=x\n\
@@ -131,6 +134,7 @@ usage(int exitcode, wchar_t* program)
     if (exitcode)
         fprintf(f, "Try `python -h' for more information.\n");
     else {
+        fputs(usage_0, f);
         fputs(usage_1, f);
         fputs(usage_2, f);
         fputs(usage_3, f);
@@ -262,6 +266,7 @@ int syntaxcheck(FILE* fp,const char* fname){
     //node* n = PyParser_ParseString(code, &_PyParser_Grammar, Py_file_input, &e);
     node* cst = PyParser_ParseFile(fp, fname, &_PyParser_Grammar, Py_file_input, NULL, NULL, &e);
     if (cst == NULL) {
+        printf("<<%s>>: ERROR\n", fname);
         if (e.error == E_EOF || e.error == E_DONE){ return 0; }
         unsigned int sz = strlen(e.text);
         unsigned int sz2 = sz;
@@ -269,15 +274,11 @@ int syntaxcheck(FILE* fp,const char* fname){
             e.text[sz - 1] = '\0';
             --sz;
         }
-        if (e.filename){
-            printf("ERROR[%s] in <<%s>> at line %d:\n\"%s\"\n",
-                ERR2TXT(e.error), e.filename, e.lineno, e.text);
-            memset(e.text, ' ', sz2);
-            e.text[e.offset] = '^';
-            printf("%s\n",e.text);
-        }else{
-            printf("ERROR in %s [%d]\n", e.text, e.error);
-        }
+        printf("[%s] in <<%s>> at line %d:\n\"%s\"\n",
+            ERR2TXT(e.error), e.filename, e.lineno, e.text);
+        memset(e.text, ' ', sz2);
+        e.text[e.offset] = '^';
+        printf("%s\n", e.text);
         return -1;
     }
     return 1;
@@ -315,7 +316,7 @@ Py_Main(int argc, wchar_t **argv)
             for (int i = 2; i < argc;++i){
                 filename = argv[i];
                 size_t r = wcstombs(cfilename, filename, PATH_MAX);
-                wprintf(L"%s\n", filename);
+                //wprintf(L"%s\n", filename);
                 if ((fp = _wfopen(filename, L"r")) == NULL) {
                     if (r == PATH_MAX)
                         strcpy(cfilename, "<file name too long>");
@@ -325,7 +326,7 @@ Py_Main(int argc, wchar_t **argv)
                     return 2;
                 }else{
                     if (syntaxcheck(fp,cfilename) == 1){
-                        printf("%s: Syntax OK!\n", cfilename);
+                        printf("<<%s>>: OK\n", cfilename);
                     }
                 }
             }
