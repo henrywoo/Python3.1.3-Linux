@@ -47,7 +47,7 @@ static wchar_t **orig_argv;
 static int  orig_argc;
 
 /* command line options */
-#define BASE_OPTS L"bBc:dEhiJm:OsStuvVW:xX?"
+#define BASE_OPTS L"lbBc:dEhiJm:OsStuvVW:xX?"
 
 #define PROGRAM_OPTS BASE_OPTS
 
@@ -252,6 +252,36 @@ static int RunMainFromImporter(wchar_t *filename)
     }
 }
 
+#include <grammar.h>
+#include <node.h>
+#include <parsetok.h>
+#include <errcode.h>
+int syntaxcheck(FILE* fp,const char* fname){
+    extern grammar _PyParser_Grammar;
+    perrdetail e;
+    //node* n = PyParser_ParseString(code, &_PyParser_Grammar, Py_file_input, &e);
+    node* cst = PyParser_ParseFile(fp, fname, &_PyParser_Grammar, Py_file_input, NULL, NULL, &e);
+    if (cst == NULL) {
+        if (e.error == E_EOF || e.error == E_DONE){ return 0; }
+        unsigned int sz = strlen(e.text);
+        unsigned int sz2 = sz;
+        while (sz > 0 && e.text[sz - 1] == '\n'){
+            e.text[sz - 1] = '\0';
+            --sz;
+        }
+        if (e.filename){
+            printf("ERROR[%s] in <<%s>> at line %d:\n\"%s\"\n",
+                ERR2TXT(e.error), e.filename, e.lineno, e.text);
+            memset(e.text, ' ', sz2);
+            e.text[e.offset] = '^';
+            printf("%s\n",e.text);
+        }else{
+            printf("ERROR in %s [%d]\n", e.text, e.error);
+        }
+        return -1;
+    }
+    return 1;
+}
 
 /* Main program */
 
@@ -280,6 +310,28 @@ Py_Main(int argc, wchar_t **argv)
     PySys_ResetWarnOptions();
 
     while ((c = _PyOS_GetOpt(argc, argv, PROGRAM_OPTS)) != EOF) {
+        if (c == 'l'){
+            char cfilename[PATH_MAX];
+            for (int i = 2; i < argc;++i){
+                filename = argv[i];
+                size_t r = wcstombs(cfilename, filename, PATH_MAX);
+                wprintf(L"%s\n", filename);
+                if ((fp = _wfopen(filename, L"r")) == NULL) {
+                    if (r == PATH_MAX)
+                        strcpy(cfilename, "<file name too long>");
+                    if (r == ((size_t)-1))
+                        strcpy(cfilename, "<unprintable file name>");
+                    fprintf(stderr, "%ls: can't open file '%s': [Errno %d] %s\n",argv[0], cfilename, errno, strerror(errno));
+                    return 2;
+                }else{
+                    if (syntaxcheck(fp,cfilename) == 1){
+                        printf("%s: Syntax OK!\n", cfilename);
+                    }
+                }
+            }
+            return 0;
+        }
+      
         if (c == 'c') {
             size_t len;
             /* -c is the last option; following arguments
@@ -480,7 +532,7 @@ Py_Main(int argc, wchar_t **argv)
 #else
     Py_SetProgramName(argv[0]);
 #endif
-    Py_Initialize();
+    Py_Initialize();//<--->Py_Finalize();
 
     if (Py_VerboseFlag ||
         (command == NULL && filename == NULL && module == NULL && stdin_is_interactive)) {

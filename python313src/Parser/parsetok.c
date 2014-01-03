@@ -75,9 +75,7 @@ PyParser_ParseStringFlagsFilenameEx(const char *s, const char *filename,
 
 /* Parse input coming from a file.  Return error code, print some errors. */
 
-node *
-PyParser_ParseFile(FILE *fp, const char *filename, grammar *g, int start,
-                   char *ps1, char *ps2, perrdetail *err_ret)
+node* PyParser_ParseFile(FILE *fp, const char *filename, grammar *g, int start, char *ps1, char *ps2, perrdetail *err_ret)
 {
     return PyParser_ParseFileFlags(fp, filename, NULL,
                                    g, start, ps1, ps2, err_ret, 0);
