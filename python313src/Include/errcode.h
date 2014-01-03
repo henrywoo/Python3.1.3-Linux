@@ -31,24 +31,25 @@ extern "C" {
 #define E_LINECONT	25	/* Unexpected characters after a line continuation */
 #define E_IDENTIFIER    26      /* Invalid characters in identifier */
 
-    static char* errorcode2txt[] = {
-        " No error ",
-        " End Of File ",
-        " Interrupted ",
-        " Bad token ",
-        " Syntax error ",
-        " Ran out of memory ",
-        " Parsing complete ",
-        " Execution error ",
-        " Inconsistent mixing of tabs and spaces ",
-        " Node had too many children ",
-        " Too many indentation levels ",
-        " No matching outer block for dedent ",
-        " Error in decoding into Unicode ",
-        " EOF in triple-quoted string ",
-        " EOL in single-quoted string ",
-        " Unexpected characters after a line continuation ",
-        " Invalid characters in identifier " };
+static char* errorcode2txt[] = {
+    "No error",
+    "End Of File",
+    "Interrupted",
+    "Bad token",
+    "Syntax error",
+    "Ran out of memory",
+    "Parsing complete",
+    "Execution error",
+    "Inconsistent mixing of tabs and spaces",
+    "Node had too many children",
+    "Too many indentation levels",
+    "No matching outer block for dedent",
+    "Error in decoding into Unicode",
+    "EOF in triple-quoted string",
+    "EOL in single-quoted string",
+    "Unexpected characters after a line continuation",
+    "Invalid characters in identifier"
+};
 
 #define ERR2TXT(x) errorcode2txt[x-E_OK]
 

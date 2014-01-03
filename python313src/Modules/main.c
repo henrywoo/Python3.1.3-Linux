@@ -314,6 +314,7 @@ Py_Main(int argc, wchar_t **argv)
         if (c == 'l'){
             char cfilename[PATH_MAX];
             for (int i = 2; i < argc;++i){
+                //////////////////////////////////////////////////////////////////////////
                 filename = argv[i];
                 size_t r = wcstombs(cfilename, filename, PATH_MAX);
                 //wprintf(L"%s\n", filename);
@@ -329,6 +330,7 @@ Py_Main(int argc, wchar_t **argv)
                         printf("<<%s>>: OK\n", cfilename);
                     }
                 }
+                //////////////////////////////////////////////////////////////////////////
             }
             return 0;
         }
