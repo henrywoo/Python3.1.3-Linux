@@ -30,19 +30,18 @@ typedef struct {
 } labellist;
 
 /* An arc from one state to another */
-/*arc代表DFA中一个状态到另一个状态的弧/边。A_lbl代表arc所对应的Label，
-而a_arrow记录了arc的目标状态。因为arc是属于某个状态的，
-因此不用记录arc的起始状态*/
+/*arc代表DFA中一个状态到另一个状态的弧/边
+A_lbl代表arc所对应的Label，而a_arrow记录了arc的目标状态。因为arc是属于某个状态的，因此不用记录arc的起始状态*/
 typedef struct {
     short	a_lbl;		/* Label of this arc */
     short	a_arrow;	/* State where this arc goes to */
 } arc;
 
 /* A state in a DFA */
-/*State代表着DFA中的状态节点。每个state记录了从该state出发的边的集合，
-存放在s_arc中。其他的一些成员s_lower, s_upper, s_accel, s_accept记录了
-state所对应的Accelerator，其作用会在后面讲述。注意Accelerator信息并没
-有定义在graminit.c中，而是在运行时计算出来的*/
+/*State代表着DFA中的状态节点。
+每个state记录了从该state出发的边的集合，存放在s_arc中。
+其他的一些成员s_lower, s_upper, s_accel, s_accept记录了state所对应的Accelerator，其作用会在后面讲述。
+注意Accelerator信息并没有定义在graminit.c中，而是在运行时计算出来的*/
 typedef struct {
     int		 s_narcs;
     arc		*s_arc;		/* Array of arcs */
@@ -55,17 +54,15 @@ typedef struct {
 } state;
 
 /* A DFA */
-/*DFA结构中记录了起始状态d_initial和所有状态的集合d_state。d_first记录
-了该DFA所对应的非终结符的firstset，也就是说，当遇到firstset中的终结符
-的时候，便需要跳转到此DFA中。d_first在后面计算Accelerators的时候会被
-用到*/
+/*DFA结构中记录了起始状态d_initial和所有状态(state)的集合d_state.
+d_first记录了该DFA所对应的非终结符的firstset，也就是说，当遇到firstset中的终结符的时候，便需要跳转到此DFA中。d_first在后面计算Accelerators的时候会被用到*/
 typedef struct {
     int		 d_type;	/* Non-terminal this represents */
     char	*d_name;	/* For printing */
     int		 d_initial;	/* Initial state */
     int		 d_nstates;
     state	*d_state;	/* Array of states */
-    bitset	 d_first;
+    bitset	 d_first;// Dragon Book P220
 } dfa;
 
 /* A grammar */

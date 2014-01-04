@@ -166,6 +166,7 @@ ast_error_finish(const char *filename)
 static int
 num_stmts(const node *n)
 {
+    extern dfa dfas[82];
     int i, l;
     node *ch;
 
@@ -179,6 +180,10 @@ num_stmts(const node *n)
             l = 0;
             for (i = 0; i < NCH(n); i++) {
                 ch = CHILD(n, i);
+                printf("%s type=%d name=%s lno=%d nchildren=%d\n",
+                    __FUNCTION__, ch->n_type, dfas[ch->n_type - 256].d_name,
+                    ch->n_lineno,ch->n_nchildren
+                    );
                 if (TYPE(ch) == stmt)
                     l += num_stmts(ch);
             }
@@ -214,8 +219,7 @@ num_stmts(const node *n)
 */
 
 mod_ty
-PyAST_FromNode(const node *n, PyCompilerFlags *flags, const char *filename,
-               PyArena *arena)
+PyAST_FromNode(const node *n, PyCompilerFlags *flags, const char *filename, PyArena *arena)
 {
     int i, j, k, num;
     asdl_seq *stmts = NULL;

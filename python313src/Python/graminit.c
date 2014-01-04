@@ -1753,7 +1753,17 @@ static state states_81[3] = {
     {2, arcs_81_1},
     {1, arcs_81_2},
 };
-static dfa dfas[82] = {
+/*
+typedef struct {
+    int		 d_type;	// Non-terminal this represents
+    char	*d_name;	// For printing
+    int		 d_initial;	// Initial state
+    int		 d_nstates;
+    state	*d_state;	// Array of states
+    bitset	 d_first;
+} dfa;*/
+//static 
+dfa dfas[82] = {
     {256, "single_input", 0, 3, states_0,
      "\004\050\060\200\000\000\000\050\370\044\034\310\045\200\020\000\000\014\241\174\010\002"},
     {257, "file_input", 0, 2, states_1,
@@ -1922,9 +1932,11 @@ static dfa dfas[82] = {
 static label labels[170] = {
     {0, "EMPTY"},
     {256, 0},
+
     {4, 0},
     {269, 0},
     {292, 0},
+
     {257, 0},
     {268, 0},
     {0, 0},

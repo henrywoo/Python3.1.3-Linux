@@ -1,5 +1,4 @@
-
-/* Parser implementation */
+ï»¿/* Parser implementation */
 
 /* For a description, see the comments at end of this file */
 
@@ -170,7 +169,6 @@ PyParser_Delete(parser_state *ps)
 
 
 /* PARSER STACK OPERATIONS */
-
 static int
 shift(register stack *s, int type, char *str, int newstate, int lineno, int col_offset)
 {
@@ -199,7 +197,6 @@ push(register stack *s, int type, dfa *d, int newstate, int lineno, int col_offs
 
 
 /* PARSER PROPER */
-
 static int
 classify(parser_state *ps, int type, char *str)
 {
@@ -291,7 +288,7 @@ future_hack(parser_state *ps)
 #endif
 #endif /* future keyword */
 
-//¸ù¾İPyTokenizerËù»ñµÃµÄtokenºÍµ±Ç°Ëù´¦µÄ×´Ì¬/DFA£¬Ìø×ªµ½ÏÂÒ»¸ö×´Ì¬£¬²¢Ìí¼Óµ½CSTÖĞ
+//æ ¹æ®PyTokenizeræ‰€è·å¾—çš„tokenå’Œå½“å‰æ‰€å¤„çš„çŠ¶æ€/DFAï¼Œè·³è½¬åˆ°ä¸‹ä¸€ä¸ªçŠ¶æ€ï¼Œå¹¶æ·»åŠ åˆ°CSTä¸­
 int PyParser_AddToken(register parser_state *ps, register int type, char *str,
                   int lineno, int col_offset, int *expected_ret)
 {
@@ -453,3 +450,4 @@ The parse tree generated for the input a+b is:
 (expr: (term: (NAME: a)), (OP: +), (term: (NAME: b)))
 
 */
+

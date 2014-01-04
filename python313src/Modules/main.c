@@ -309,11 +309,12 @@ Py_Main(int argc, wchar_t **argv)
     orig_argv = argv;
 
     PySys_ResetWarnOptions();
-
+    unsigned int optind = 1;
     while ((c = _PyOS_GetOpt(argc, argv, PROGRAM_OPTS)) != EOF) {
+        ++optind;
         if (c == 'l'){
             char cfilename[PATH_MAX];
-            for (int i = 2; i < argc;++i){
+            for (int i = optind; i < argc;++i){
                 //////////////////////////////////////////////////////////////////////////
                 filename = argv[i];
                 size_t r = wcstombs(cfilename, filename, PATH_MAX);

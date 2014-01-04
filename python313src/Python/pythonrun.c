@@ -1708,10 +1708,10 @@ run_mod(mod_ty mod, const char *filename, PyObject *globals, PyObject *locals,
 {
     PyCodeObject *co;
     PyObject *v;
-    co = PyAST_Compile(mod, filename, flags, arena);
+    co = PyAST_Compile(mod, filename, flags, arena);// Generate bytecode from AST
     if (co == NULL)
         return NULL;
-    v = PyEval_EvalCode(co, globals, locals);
+    v = PyEval_EvalCode(co, globals, locals); // Execute bytecode!
     Py_DECREF(co);
     return v;
 }

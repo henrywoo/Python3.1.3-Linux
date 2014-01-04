@@ -1036,7 +1036,7 @@ FunctionDef(identifier name, arguments_ty args, asdl_seq * body, asdl_seq *
                                 "field args is required for FunctionDef");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = FunctionDef_kind;
@@ -1061,7 +1061,7 @@ ClassDef(identifier name, asdl_seq * bases, asdl_seq * keywords, expr_ty
                                 "field name is required for ClassDef");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = ClassDef_kind;
@@ -1081,7 +1081,7 @@ stmt_ty
 Return(expr_ty value, int lineno, int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Return_kind;
@@ -1095,7 +1095,7 @@ stmt_ty
 Delete(asdl_seq * targets, int lineno, int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Delete_kind;
@@ -1115,7 +1115,7 @@ Assign(asdl_seq * targets, expr_ty value, int lineno, int col_offset, PyArena
                                 "field value is required for Assign");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Assign_kind;
@@ -1146,7 +1146,7 @@ AugAssign(expr_ty target, operator_ty op, expr_ty value, int lineno, int
                                 "field value is required for AugAssign");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = AugAssign_kind;
@@ -1173,7 +1173,7 @@ For(expr_ty target, expr_ty iter, asdl_seq * body, asdl_seq * orelse, int
                                 "field iter is required for For");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = For_kind;
@@ -1196,7 +1196,7 @@ While(expr_ty test, asdl_seq * body, asdl_seq * orelse, int lineno, int
                                 "field test is required for While");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = While_kind;
@@ -1217,7 +1217,7 @@ Until(expr_ty test, asdl_seq * body, int lineno, int col_offset, PyArena *arena)
                                 "field test is required for Until");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Until_kind;
@@ -1238,7 +1238,7 @@ If(expr_ty test, asdl_seq * body, asdl_seq * orelse, int lineno, int
                                 "field test is required for If");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = If_kind;
@@ -1260,7 +1260,7 @@ With(expr_ty context_expr, expr_ty optional_vars, asdl_seq * body, int lineno,
                                 "field context_expr is required for With");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = With_kind;
@@ -1276,7 +1276,7 @@ stmt_ty
 Raise(expr_ty exc, expr_ty cause, int lineno, int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Raise_kind;
@@ -1292,7 +1292,7 @@ TryExcept(asdl_seq * body, asdl_seq * handlers, asdl_seq * orelse, int lineno,
           int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = TryExcept_kind;
@@ -1309,7 +1309,7 @@ TryFinally(asdl_seq * body, asdl_seq * finalbody, int lineno, int col_offset,
            PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = TryFinally_kind;
@@ -1329,7 +1329,7 @@ Assert(expr_ty test, expr_ty msg, int lineno, int col_offset, PyArena *arena)
                                 "field test is required for Assert");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Assert_kind;
@@ -1344,7 +1344,7 @@ stmt_ty
 Import(asdl_seq * names, int lineno, int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Import_kind;
@@ -1364,7 +1364,7 @@ ImportFrom(identifier module, asdl_seq * names, int level, int lineno, int
                                 "field module is required for ImportFrom");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = ImportFrom_kind;
@@ -1380,7 +1380,7 @@ stmt_ty
 Global(asdl_seq * names, int lineno, int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Global_kind;
@@ -1394,7 +1394,7 @@ stmt_ty
 Nonlocal(asdl_seq * names, int lineno, int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Nonlocal_kind;
@@ -1413,7 +1413,7 @@ Expr(expr_ty value, int lineno, int col_offset, PyArena *arena)
                                 "field value is required for Expr");
                 return NULL;
         }
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Expr_kind;
@@ -1427,7 +1427,7 @@ stmt_ty
 Pass(int lineno, int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Pass_kind;
@@ -1440,7 +1440,7 @@ stmt_ty
 Break(int lineno, int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Break_kind;
@@ -1453,7 +1453,7 @@ stmt_ty
 Continue(int lineno, int col_offset, PyArena *arena)
 {
         stmt_ty p;
-        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));
+        p = (stmt_ty)PyArena_Malloc(arena, sizeof(*p));printf("sizeof(*p)=%d\n",sizeof(*p));
         if (!p)
                 return NULL;
         p->kind = Continue_kind;

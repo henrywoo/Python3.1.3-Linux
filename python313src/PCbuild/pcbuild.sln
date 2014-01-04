@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{553EC33E-9816-4996-A660-5D6186A0B0B3}"
 	ProjectSection(SolutionItems) = preProject
 		..\Modules\getbuildinfo.c = ..\Modules\getbuildinfo.c
@@ -69,6 +71,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kill_python", "kill_python.vcxproj", "{6DE10744-E396-40A5-B4E2-1B69AA7C8D31}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pgen", "pgen.vcxproj", "{F6F3857A-9923-411D-95E1-B8C602DB723F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sandbox", "..\sandbox\sandbox.vcxproj", "{AF74DB9D-0DF4-4623-A495-53B43EBC291C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B11D750F-CD1F-4A96-85CE-E69A5C5259F9} = {B11D750F-CD1F-4A96-85CE-E69A5C5259F9}
+		{CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26} = {CF7AC3D1-E2DF-41D2-BEA6-1E2556CDEA26}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -486,6 +494,18 @@ Global
 		{F6F3857A-9923-411D-95E1-B8C602DB723F}.Release|Win32.ActiveCfg = Release|Win32
 		{F6F3857A-9923-411D-95E1-B8C602DB723F}.Release|Win32.Build.0 = Release|Win32
 		{F6F3857A-9923-411D-95E1-B8C602DB723F}.Release|x64.ActiveCfg = Release|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.Debug|Win32.Build.0 = Debug|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.Debug|x64.ActiveCfg = Debug|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.PGInstrument|Win32.ActiveCfg = Release|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.PGInstrument|Win32.Build.0 = Release|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.PGInstrument|x64.ActiveCfg = Release|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.PGUpdate|Win32.ActiveCfg = Release|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.PGUpdate|Win32.Build.0 = Release|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.PGUpdate|x64.ActiveCfg = Release|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.Release|Win32.ActiveCfg = Release|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.Release|Win32.Build.0 = Release|Win32
+		{AF74DB9D-0DF4-4623-A495-53B43EBC291C}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

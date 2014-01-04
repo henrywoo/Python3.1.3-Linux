@@ -817,7 +817,7 @@ tok_nextc(register struct tok_state *tok)
 {
     for (;;) {
         if (tok->cur != tok->inp) {
-            return Py_CHARMASK(*tok->cur++); /* Fast path */
+            return Py_CHARMASK(*tok->cur++); /* Fast path #define Py_CHARMASK(c) ((unsigned char)((c) & 0xff)) */
         }
         if (tok->done != E_OK)
             return EOF;
