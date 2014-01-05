@@ -335,18 +335,14 @@ int PyParser_AddToken(register parser_state *ps, register int type, char *str,
                 }
 
                 /* Shift the token */
-                if ((err = shift(&ps->p_stack, type, str,
-                                x, lineno, col_offset)) > 0) {
+                if ((err = shift(&ps->p_stack, type, str, x, lineno, col_offset)) > 0) {
                     D(printf(" MemError: shift.\n"));
                     return err;
                 }
                 D(printf(" Shift.\n"));
-                /* Pop while we are in an accept-only state */
-                while (s = &d->d_state
-                                [ps->p_stack.s_top->s_state],
-                    s->s_accept && s->s_narcs == 1) {
-                    D(printf("  DFA '%s', state %d: "
-                             "Direct pop.\n",
+                /* Pop while we are in an accept-only state *////fuheng -> comma expression
+                while (s = &d->d_state[ps->p_stack.s_top->s_state],s->s_accept && s->s_narcs == 1) {
+                    D(printf("-->DFA '%s', state %d: Direct pop.\n",
                              d->d_name,
                              ps->p_stack.s_top->s_state));
 #ifdef PY_PARSER_REQUIRES_FUTURE_KEYWORD

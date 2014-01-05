@@ -1,4 +1,4 @@
-
+﻿
 /* Parser accelerator module */
 
 /* The parser as originally conceived had disappointing performance.
@@ -56,19 +56,21 @@ fixdfa(grammar *g, dfa *d)
     state *s;
     int j;
     s = d->d_state;
+    printf("dfa name:%s\n",d->d_name);
     for (j = 0; j < d->d_nstates; j++, s++)
         fixstate(g, s);
 }
 
-extern label labels[168];
+//extern label labels[168];//fuheng
+//extern label labels[170];
 
-static void fixstate(grammar *g, state *s)
+static void fixstate(grammar *_grammar, state *_state)
 {
-    arc *a;
+    arc *tmp_arc;
     int k;
     int *accel;
-    int nl = g->g_ll.ll_nlabels;
-    s->s_accept = 0;
+    int nl = _grammar->g_ll.ll_nlabels;
+    _state->s_accept = 0;
     accel = (int *) PyObject_MALLOC(nl * sizeof(int));
     if (accel == NULL) {
         fprintf(stderr, "no mem to build parser accelerators\n");
@@ -77,36 +79,40 @@ static void fixstate(grammar *g, state *s)
     memset(accel,-1,nl*sizeof(*accel));
     //for (k = 0; k < nl; k++)
     //    accel[k] = -1;
-    a = s->s_arc;
-    for (k = s->s_narcs; --k >= 0; a++) {
-        int lbl = a->a_lbl;
-        label *l = &g->g_ll.ll_label[lbl];
-        int type = l->lb_type;
-        if (a->a_arrow >= (1 << 7)) {
+    tmp_arc = _state->s_arc;
+    for (k = _state->s_narcs; --k >= 0; tmp_arc++) {
+        int lbl = tmp_arc->a_lbl;
+        label *tmp_label = &_grammar->g_ll.ll_label[lbl];
+        int type = tmp_label->lb_type;//注意type是label本身的类型！
+        if (tmp_arc->a_arrow >= (1 << 7)) {
             printf("XXX too many states!\n");
             continue;
         }
         if (ISNONTERMINAL(type)) {//1. label is nonterminal, then need go to another DFA
-            //dfa *d1 = PyGrammar_FindDFA(g, type);
+            //dfa *d1 = PyGrammar_FindDFA(_grammar, type);
             int dfa_id_ = type - NT_OFFSET;
-            dfa *d1 = & g->g_dfa[dfa_id_];
+            dfa *tmp_dfa = & _grammar->g_dfa[dfa_id_];
             int ibit;
             if (dfa_id_ >= (1 << 7)) {
                 printf("XXX too high nonterminal number!\n");
                 continue;
             }
-            for (ibit = 0; ibit < g->g_ll.ll_nlabels; ibit++) {
-                if (testbit(d1->d_first, ibit)) {
+            for (ibit = 0; ibit < _grammar->g_ll.ll_nlabels; ibit++) {
+                if (testbit(tmp_dfa->d_first, ibit)) {
                     if (accel[ibit] != -1)
                         printf("XXX ambiguity!\n");
-                    accel[ibit] = a->a_arrow | (1 << 7) | ((dfa_id_) << 8);
+                    accel[ibit] = tmp_arc->a_arrow | (1 << 7) | ((dfa_id_) << 8);// 13 21
+                    printf("lb_type=%d, lb_id=%d, to_state=%d, dfa_id=%d\n", 
+                        _grammar->g_ll.ll_label[ibit].lb_type, ibit, tmp_arc->a_arrow, dfa_id_+NT_OFFSET);
                 }
             }
         }
         else if (lbl == EMPTY)// 2.if label is empty, then enter ACCEPT state
-            s->s_accept = 1;
-        else if (lbl >= 0 && lbl < nl)//3. label is a terminal
-            accel[lbl] = a->a_arrow;
+            _state->s_accept = 1;
+        else if (lbl >= 0 && lbl < nl){//3. label is a terminal
+            accel[lbl] = tmp_arc->a_arrow;
+            printf("lb_type=%d, lb_id=%d, to_state=%d\n", _grammar->g_ll.ll_label[lbl].lb_type, lbl, tmp_arc->a_arrow);
+        }
     }
     while (nl > 0 && accel[nl-1] == -1)
         nl--;
@@ -114,15 +120,15 @@ static void fixstate(grammar *g, state *s)
         k++;
     if (k < nl) {
         int i;
-        s->s_accel = (int *) PyObject_MALLOC((nl-k) * sizeof(int));
-        if (s->s_accel == NULL) {
+        _state->s_accel = (int *) PyObject_MALLOC((nl-k) * sizeof(int));
+        if (_state->s_accel == NULL) {
             fprintf(stderr, "no mem to add parser accelerators\n");
             exit(1);
         }
-        s->s_lower = k;
-        s->s_upper = nl;
+        _state->s_lower = k;
+        _state->s_upper = nl;
         for (i = 0; k < nl; i++, k++)
-            s->s_accel[i] = accel[k];
+            _state->s_accel[i] = accel[k];
     }
     PyObject_FREE(accel);
 }

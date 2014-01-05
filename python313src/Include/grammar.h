@@ -11,7 +11,8 @@ extern "C" {
 /* A label of an arc */
 /*Label定义了从状态转移到另外一个状态所经过的边所对应的符号，可以是
 非终结符(Non-Terminal)，也可以是终结符(Terminal)。Label一定依附于一条
-或者多条边。Lb_type代表符号的类型，如终结符NAME，代表一个标示符，或
+或者多条边.
+Lb_type代表符号的类型，如终结符NAME，代表一个标示符，或
 者非终结符stmt，代表一个语句，等等。Lb_str代表具体符号的内容。比如，
 label (NAME, “if”)表示当parser处于某个状态，如果遇到了’if’这个标示符，
 则移动另外一个状态。如果label是一个非终结符的话，情况则要复杂一些，

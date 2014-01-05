@@ -5,21 +5,22 @@
 #include "pgenheaders.h"
 #include "grammar.h"
 PyAPI_DATA(grammar) _PyParser_Grammar;
-static arc arcs_0_0[3] = {
-    {2, 1},
-    {3, 1},
-    {4, 2},
+
+static arc arcs_0_0[3] = {//current state is 0
+    {2, 1},// input is labels[2], then shift to state 1
+    {3, 1},// input is labels[3], then shift to state 1
+    {4, 2},// input is labels[4], then shift to state 2
 };
-static arc arcs_0_1[1] = {
-    {0, 1},
+static arc arcs_0_1[1] = {//current state is 1
+    {0, 1},// input is labels[0], then shift to state 1
 };
-static arc arcs_0_2[1] = {
-    {2, 1},
+static arc arcs_0_2[1] = {//current state is 2
+    {2, 1},// input is labels[2], then shift to state 1
 };
 static state states_0[3] = {
-    {3, arcs_0_0},
-    {1, arcs_0_1},
-    {1, arcs_0_2},
+    {3, arcs_0_0},// state 0, 3 arcs ->arcs_0_0
+    {1, arcs_0_1},// state 1, 1 arcs ->arcs_0_1
+    {1, arcs_0_2},// state 2, 1 arcs ->arcs_0_2
 };
 static arc arcs_1_0[3] = {
     {2, 0},
@@ -1930,38 +1931,36 @@ dfa dfas[82] = {
      "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\002"},
 };
 static label labels[170] = {
-    {0, "EMPTY"},
-    {256, 0},
-
-    {4, 0},
-    {269, 0},
-    {292, 0},
-
-    {257, 0},
-    {268, 0},
-    {0, 0},
-    {258, 0},
-    {327, 0},
-    {259, 0},
-    {50, 0},
-    {288, 0},
-    {7, 0},
-    {330, 0},
-    {8, 0},
-    {260, 0},
-    {261, 0},
-    {329, 0},
-    {262, 0},
-    {1, "def"},
-    {1, 0},
-    {263, 0},
-    {51, 0},
-    {302, 0},
-    {11, 0},
-    {301, 0},
-    {264, 0},
-    {265, 0},
-    {22, 0},
+    {0, "EMPTY"},//0
+    {256, 0},//1
+    {4, 0},//2
+    {269, 0},//3
+    {292, 0},//4
+    {257, 0},//5
+    {268, 0},//6
+    {0, 0},//7
+    {258, 0},//8
+    {327, 0},//9
+    {259, 0},//10
+    {50, 0},//11
+    {288, 0},//12
+    {7, 0},//13
+    {330, 0},//14
+    {8, 0},//15
+    {260, 0},//16
+    {261, 0},//17
+    {329, 0},//18
+    {262, 0},//19
+    {1, "def"},//20
+    {1, 0},//21
+    {263, 0},//22
+    {51, 0},//23
+    {302, 0},//24
+    {11, 0},//25
+    {301, 0},//26
+    {264, 0},//27
+    {265, 0},//28
+    {22, 0},//29
     {12, 0},
     {16, 0},
     {36, 0},
@@ -2109,3 +2108,64 @@ grammar _PyParser_Grammar = {
     {170, labels},
     256
 };
+/*
+#define ENDMARKER	0
+#define NAME		1
+#define NUMBER		2
+#define STRING		3
+#define NEWLINE		4
+#define INDENT		5
+#define DEDENT		6
+#define LPAR		7
+#define RPAR		8
+#define LSQB		9
+#define RSQB		10
+#define COLON		11
+#define COMMA		12
+#define SEMI		13
+#define PLUS		14
+#define MINUS		15
+#define STAR		16
+#define SLASH		17
+#define VBAR		18
+#define AMPER		19
+#define LESS		20
+#define GREATER		21
+#define EQUAL		22
+#define DOT		23
+#define PERCENT		24
+//#define BACKQUOTE	25
+#define LBRACE		26
+#define RBRACE		27
+#define EQEQUAL		28
+#define NOTEQUAL	29
+#define LESSEQUAL	30
+#define GREATEREQUAL	31
+#define TILDE		32
+#define CIRCUMFLEX	33
+#define LEFTSHIFT	34
+#define RIGHTSHIFT	35
+#define DOUBLESTAR	36
+#define PLUSEQUAL	37
+#define MINEQUAL	38
+#define STAREQUAL	39
+#define SLASHEQUAL	40
+#define PERCENTEQUAL	41
+#define AMPEREQUAL	42
+#define VBAREQUAL	43
+#define CIRCUMFLEXEQUAL	44
+#define LEFTSHIFTEQUAL	45
+#define RIGHTSHIFTEQUAL	46
+#define DOUBLESTAREQUAL	47
+#define DOUBLESLASH	48
+#define DOUBLESLASHEQUAL 49
+#define AT              50	
+#define RARROW          51
+#define ELLIPSIS        52
+
+#define OP		53
+#define ERRORTOKEN	54
+#define N_TOKENS	55
+
+#define NT_OFFSET		256
+*/

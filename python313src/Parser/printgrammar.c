@@ -105,7 +105,8 @@ printlabels(grammar *g, FILE *fp)
     label *l;
     int i;
 
-    fprintf(fp, "static label labels[%d] = {\n", g->g_ll.ll_nlabels);
+    //fprintf(fp, "static label labels[%d] = {\n", g->g_ll.ll_nlabels);
+    fprintf(fp, "label labels[%d] = {\n", g->g_ll.ll_nlabels); // fuheng
     l = g->g_ll.ll_label;
     for (i = g->g_ll.ll_nlabels; --i >= 0; l++) {
         if (l->lb_str == NULL)

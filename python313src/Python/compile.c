@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file compiles an abstract syntax tree (AST) into Python bytecode.
  *
  * The primary entry point is PyAST_Compile(), which returns a
@@ -321,10 +321,10 @@ PyAST_Compile(mod_ty mod, const char *filename, PyCompilerFlags *flags,
     /* XXX initialize to NULL for now, need to handle */
     c.c_encoding = NULL;
 
-    co = compiler_mod(&c, mod);
+    co = compiler_mod(&c, mod); //Control Flow Graph
 
  finally:
-    compiler_free(&c);
+    compiler_free(&c); // 编译阶段完成
     assert(co || PyErr_Occurred());
     return co;
 }
