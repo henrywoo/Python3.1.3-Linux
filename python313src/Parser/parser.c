@@ -197,13 +197,21 @@ push(register stack *s, int type, dfa *d, int newstate, int lineno, int col_offs
 
 
 /* PARSER PROPER */
-static int
-classify(parser_state *ps, int type, char *str)
+extern unsigned short type2label[82 + 256];
+extern label type2label2[34];
+static int classify(parser_state *ps, int type, char *str)
 {
     grammar *g = ps->p_grammar;
     register int n = g->g_ll.ll_nlabels;
 
     if (type == NAME) {
+        for (int i = 0; i < 34;++i){
+            if (type2label2[i].lb_str[0] == str[0] && strcmp(type2label2[i].lb_str,str)==0){
+                return type2label2[i].lb_type;
+            }
+        }
+        return 21;
+        
         register char *s = str;
         register label *l = g->g_ll.ll_label;
         register int i;
@@ -229,6 +237,8 @@ classify(parser_state *ps, int type, char *str)
     }
     
     {
+        return type2label[type];
+        
         register label *l = g->g_ll.ll_label;
         register int i;
         for (i = n; i > 0; i--, l++) {
@@ -298,7 +308,7 @@ int PyParser_AddToken(register parser_state *ps, register int type, char *str,
     D(printf("Token %s -> '%s' ... ", _PyParser_TokenNames[type], str));
 
     /* Find out which label this token is */
-    ilabel = classify(ps, type, str);
+    ilabel = classify(ps, type, str);//index of labels
     D(printf(" label # = %d\n", ilabel));
     if (ilabel < 0)
         return E_SYNTAX;
