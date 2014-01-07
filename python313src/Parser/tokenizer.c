@@ -570,7 +570,7 @@ decoding_fgets(char *s, int size, struct tok_state *tok)
             assert(tok->decoding_state != STATE_INIT);
         }
     }
-    if (line != NULL && tok->lineno < 2 && !tok->read_coding_spec) {
+    if (line != NULL && tok->lineno < 2 && !tok->read_coding_spec && !Py_SyntaxCheckFlag) {
         if (!check_coding_spec(line, strlen(line), tok, fp_setreadl)) {
             return error_ret(tok);
         }

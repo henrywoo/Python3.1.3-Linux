@@ -56,7 +56,7 @@ fixdfa(grammar *g, dfa *d)
     state *s;
     int j;
     s = d->d_state;
-    printf("dfa name:%s\n",d->d_name);
+    //printf("dfa name:%s\n",d->d_name);
     for (j = 0; j < d->d_nstates; j++, s++)
         fixstate(g, s);
 }
@@ -102,8 +102,8 @@ static void fixstate(grammar *_grammar, state *_state)
                     if (accel[ibit] != -1)
                         printf("XXX ambiguity!\n");
                     accel[ibit] = tmp_arc->a_arrow | (1 << 7) | ((dfa_id_) << 8);// 13 21
-                    printf("lb_type=%d, lb_id=%d, to_state=%d, dfa_id=%d\n", 
-                        _grammar->g_ll.ll_label[ibit].lb_type, ibit, tmp_arc->a_arrow, dfa_id_+NT_OFFSET);
+                    /*printf("lb_type=%d, lb_id=%d, to_state=%d, dfa_id=%d\n", 
+                        _grammar->g_ll.ll_label[ibit].lb_type, ibit, tmp_arc->a_arrow, dfa_id_+NT_OFFSET);*/
                 }
             }
         }
@@ -111,7 +111,8 @@ static void fixstate(grammar *_grammar, state *_state)
             _state->s_accept = 1;
         else if (lbl >= 0 && lbl < nl){//3. label is a terminal
             accel[lbl] = tmp_arc->a_arrow;
-            printf("lb_type=%d, lb_id=%d, to_state=%d\n", _grammar->g_ll.ll_label[lbl].lb_type, lbl, tmp_arc->a_arrow);
+            /*printf("lb_type=%d, lb_id=%d, to_state=%d\n", 
+            _grammar->g_ll.ll_label[lbl].lb_type, lbl, tmp_arc->a_arrow);*/
         }
     }
     while (nl > 0 && accel[nl-1] == -1)

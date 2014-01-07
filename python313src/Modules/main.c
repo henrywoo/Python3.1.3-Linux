@@ -313,6 +313,7 @@ Py_Main(int argc, wchar_t **argv)
     while ((c = _PyOS_GetOpt(argc, argv, PROGRAM_OPTS)) != EOF) {
         ++optind;
         if (c == 'l'){
+            Py_SyntaxCheckFlag = 1;
             char cfilename[PATH_MAX];
             for (int i = optind; i < argc;++i){
                 //////////////////////////////////////////////////////////////////////////
