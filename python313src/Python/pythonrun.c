@@ -91,6 +91,7 @@ int Py_FrozenFlag; /* Needed by getpath.c */
 int Py_IgnoreEnvironmentFlag; /* e.g. PYTHONPATH, PYTHONHOME */
 int Py_NoUserSiteDirectory = 0; /* for -s and site.py */
 int Py_UnbufferedStdioFlag = 0; /* Unbuffered binary std{in,out,err} */
+int Py_SyntaxCheckFlag=0;
 
 /* PyModule_GetWarningsModule is no longer necessary as of 2.6
 since _warnings is builtin.  This API should not be used. */
