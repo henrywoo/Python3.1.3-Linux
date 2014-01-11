@@ -1,4 +1,4 @@
-﻿/* Grammar interface */
+/* Grammar interface */
 
 #ifndef Py_GRAMMAR_H
 #define Py_GRAMMAR_H
@@ -97,7 +97,7 @@ void addfirstsets(grammar *g);
 void PyGrammar_AddAccelerators(grammar *g);
 void PyGrammar_RemoveAccelerators(grammar *);
 
-void printgrammar(grammar *g, FILE *fp);
+void printgrammar(grammar *g, FILE *fp, FILE* fp2);
 void printnonterminals(grammar *g, FILE *fp);
 
 #ifdef __cplusplus

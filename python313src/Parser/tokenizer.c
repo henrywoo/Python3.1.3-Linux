@@ -1,4 +1,4 @@
-﻿
+
 /* Tokenizer implementation */
 
 #include "Python.h"

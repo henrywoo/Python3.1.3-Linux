@@ -41,7 +41,7 @@ labelindex2string type2label2[34] = {
 {169, "yield"},
 };
 
-
+#define SPEEDUPPARSE
     /*#define ENDMARKER	0
     #define NAME		1
     #define NUMBER		2

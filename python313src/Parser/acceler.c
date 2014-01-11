@@ -1,4 +1,4 @@
-﻿
+
 /* Parser accelerator module */
 
 /* The parser as originally conceived had disappointing performance.

@@ -8,7 +8,7 @@
 static void printarcs(int, dfa *, FILE *);
 static void printstates(grammar *, FILE *);
 static void printdfas(grammar *, FILE *);
-static void printlabels(grammar *, FILE *);
+static void printlabels(grammar *, FILE *, FILE *);
 
 void
 printgrammar(grammar *g, FILE *fp, FILE *fp2)

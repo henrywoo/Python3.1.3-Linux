@@ -315,7 +315,8 @@ Py_Main(int argc, wchar_t **argv)
         if (c == 'l'){
             Py_SyntaxCheckFlag = 1;
             char cfilename[PATH_MAX];
-            for (int i = optind; i < argc;++i){
+            register int i;
+            for (i = optind; i < argc;++i){
                 //////////////////////////////////////////////////////////////////////////
                 filename = argv[i];
                 size_t r = wcstombs(cfilename, filename, PATH_MAX);

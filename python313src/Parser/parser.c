@@ -1,4 +1,4 @@
-﻿/* Parser implementation */
+/* Parser implementation */
 
 /* For a description, see the comments at end of this file */
 
