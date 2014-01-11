@@ -644,7 +644,7 @@ _PyImport_FindExtension(char *name, char *filename)
 PyObject *
 PyImport_AddModule(const char *name)
 {
-    printf("module name: %s\n",name);
+    //printf("module name: %s\n",name);
     PyObject *modules = PyImport_GetModuleDict();
     PyObject *m;
 
