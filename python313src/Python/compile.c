@@ -286,7 +286,7 @@ PyAST_Compile(mod_ty mod, const char *filename, PyCompilerFlags *flags,
     PyCompilerFlags local_flags;
     int merged;
 
-    OutputDebugString(__FUNCDNAME__);
+    //OutputDebugString(__FUNCDNAME__);
 
     if (!__doc__) {
         __doc__ = PyUnicode_InternFromString("__doc__");

@@ -99,7 +99,7 @@ PyParser_ParseFileFlagsEx(FILE *fp, const char *filename,
 {
     struct tok_state *tok;
 
-    OutputDebugString(__FUNCDNAME__);
+    //OutputDebugString(__FUNCDNAME__);
     initerr(err_ret, filename);
 
     if ((tok = PyTokenizer_FromFile(fp, (char *)enc, ps1, ps2)) == NULL) {
@@ -138,7 +138,7 @@ parsetok(struct tok_state *tok, grammar *g, int start, perrdetail *err_ret,
     parser_state *ps;
     node *n;
     int started = 0, handling_import = 0, handling_with = 0;
-    OutputDebugString(__FUNCDNAME__);
+    //OutputDebugString(__FUNCDNAME__);
 
     if ((ps = PyParser_New(g, start)) == NULL) {
         fprintf(stderr, "no mem for new parser\n");

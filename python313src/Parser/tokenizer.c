@@ -1236,7 +1236,7 @@ tok_get(register struct tok_state *tok, char **p_start, char **p_end)
     tok->start = NULL;
     blankline = 0;
 
-    OutputDebugString(__FUNCDNAME__);
+    //OutputDebugString(__FUNCDNAME__);
 
     /* Get indentation level */
     if (tok->atbol) {
@@ -1625,8 +1625,8 @@ tok_get(register struct tok_state *tok, char **p_start, char **p_end)
     /* Punctuation character */
     *p_start = tok->start;
     *p_end = tok->cur;
-    OutputDebugString(*p_start);
-    OutputDebugString(*p_end);
+    //OutputDebugString(*p_start);
+    //OutputDebugString(*p_end);
     return PyToken_OneChar(c);
 }
 
@@ -1634,7 +1634,7 @@ int
 PyTokenizer_Get(struct tok_state *tok, char **p_start, char **p_end)
 {
     int result;
-    OutputDebugString(__FUNCDNAME__);
+    //OutputDebugString(__FUNCDNAME__);
     result = tok_get(tok, p_start, p_end);
     if (tok->decoding_erred) {
         result = ERRORTOKEN;

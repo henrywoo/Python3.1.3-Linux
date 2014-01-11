@@ -1161,7 +1161,7 @@ PyRun_SimpleFileExFlags(FILE *fp, const char *filename, int closeit,
     const char *ext;
     int set_file_name = 0, ret, len;
 
-    OutputDebugString(__FUNCDNAME__);
+    //OutputDebugString(__FUNCDNAME__);
 
     m = PyImport_AddModule("__main__");
     if (m == NULL)
@@ -1657,7 +1657,7 @@ PyRun_FileExFlags(FILE *fp, const char *filename, int start, PyObject *globals,
     PyObject *ret;
     mod_ty mod;
     PyArena *arena = PyArena_New();
-    OutputDebugString(__FUNCDNAME__);
+    //OutputDebugString(__FUNCDNAME__);
     if (arena == NULL)
         return NULL;
 
@@ -1836,7 +1836,7 @@ PyParser_ASTFromFile(FILE *fp, const char *filename, const char* enc,
     int iflags = PARSER_FLAGS(flags);
 
     node *n;
-    OutputDebugString(__FUNCDNAME__);
+    //OutputDebugString(__FUNCDNAME__);
     n= PyParser_ParseFileFlagsEx(fp, filename, enc,
                                       &_PyParser_Grammar,
                             start, ps1, ps2, &err, &iflags);

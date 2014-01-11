@@ -568,7 +568,7 @@ long Call_CanUnloadNow(void)
 
     mod = PyImport_ImportModuleNoBlock("ctypes");
     if (!mod) {
-/*              OutputDebugString("Could not import ctypes"); */
+/*              //OutputDebugString("Could not import ctypes"); */
         /* We assume that this error can only occur when shutting
            down, so we silently ignore it */
         PyErr_Clear();

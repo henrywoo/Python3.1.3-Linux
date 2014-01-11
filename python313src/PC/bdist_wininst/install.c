@@ -105,7 +105,7 @@
 
    va_start(marker, fmt);
    result = wvsprintf(Buffer, fmt, marker);
-   OutputDebugString(Buffer);
+   //OutputDebugString(Buffer);
    return result;
    }
 */
@@ -1302,9 +1302,9 @@ static BOOL __stdcall StatusRoutine(IMAGEHLP_STATUS_REASON reason,
             strcpy(bound_image_dll, fname);
             bound_image_major = int_version / 10;
             bound_image_minor = int_version % 10;
-            OutputDebugString("BOUND ");
-            OutputDebugString(fname);
-            OutputDebugString("\n");
+            //OutputDebugString("BOUND ");
+            //OutputDebugString(fname);
+            //OutputDebugString("\n");
         }
         break;
     }

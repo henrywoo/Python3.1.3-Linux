@@ -648,8 +648,8 @@ PyImport_AddModule(const char *name)
     PyObject *modules = PyImport_GetModuleDict();
     PyObject *m;
 
-    OutputDebugString(__FUNCDNAME__);
-    OutputDebugString(name);
+    //OutputDebugString(__FUNCDNAME__);
+    //OutputDebugString(name);
 
     if ((m = PyDict_GetItemString(modules, name)) != NULL &&
         PyModule_Check(m))
