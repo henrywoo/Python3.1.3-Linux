@@ -210,6 +210,7 @@ IO_OBJS=	\
 ##########################################################################
 # Grammar
 GRAMMAR_H=	$(srcdir)/Include/graminit.h
+SPEEDPARSE_H=	$(srcdir)/Include/speedparse.h
 GRAMMAR_C=	$(srcdir)/Python/graminit.c
 GRAMMAR_INPUT=	$(srcdir)/Grammar/Grammar
 
@@ -542,7 +543,7 @@ $(IO_OBJS): $(IO_H)
 
 $(GRAMMAR_H) $(GRAMMAR_C): $(PGEN) $(GRAMMAR_INPUT)
 		-@$(INSTALL) -d Include
-		-$(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
+		-$(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C) $(SPEEDPARSE_H)
 
 $(PGEN):	$(PGENOBJS)
 		$(CC) $(OPT) $(LDFLAGS) $(PGENOBJS) $(LIBS) -o $(PGEN)
