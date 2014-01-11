@@ -11,7 +11,7 @@
 #include "node.h"
 #include "parser.h"
 #include "errcode.h"
-
+#include "speedparse.h"
 
 #ifdef Py_DEBUG
 extern int Py_DebugFlag;
@@ -133,7 +133,6 @@ s_pop(register stack *s)
 
 
 /* PARSER CREATION */
-
 parser_state *
 PyParser_New(grammar *g, int start)
 {
@@ -197,21 +196,19 @@ push(register stack *s, int type, dfa *d, int newstate, int lineno, int col_offs
 
 
 /* PARSER PROPER */
-extern unsigned short type2label[82 + 256];
-extern label type2label2[34];
 static int classify(parser_state *ps, int type, char *str)
 {
     grammar *g = ps->p_grammar;
     register int n = g->g_ll.ll_nlabels;
-
     if (type == NAME) {
+#ifdef SPEEDUPPARSE
         for (int i = 0; i < 34;++i){
             if (type2label2[i].lb_str[0] == str[0] && strcmp(type2label2[i].lb_str,str)==0){
                 return type2label2[i].lb_type;
             }
         }
         return 21;
-        
+#endif
         register char *s = str;
         register label *l = g->g_ll.ll_label;
         register int i;
@@ -237,8 +234,9 @@ static int classify(parser_state *ps, int type, char *str)
     }
     
     {
+#ifdef SPEEDUPPARSE
         return type2label[type];
-        
+#endif
         register label *l = g->g_ll.ll_label;
         register int i;
         for (i = n; i > 0; i--, l++) {

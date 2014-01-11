@@ -37,10 +37,10 @@ int
 main(int argc, char **argv)
 {
     grammar *g;
-    FILE *fp;
-    char *filename, *graminit_h, *graminit_c;
+    FILE *fp, *fp2;
+    char *filename, *graminit_h, *graminit_c, *fspeedup;
 
-    if (argc != 4) {
+    if (argc != 5) {
         fprintf(stderr,
             "usage: %s grammar graminit.h graminit.c\n", argv[0]);
         Py_Exit(2);
@@ -48,17 +48,28 @@ main(int argc, char **argv)
     filename = argv[1];
     graminit_h = argv[2];
     graminit_c = argv[3];
+    fspeedup = argv[4];
+
     g = getgrammar(filename);
+    
     fp = fopen(graminit_c, "w");
+    fp2 = fopen(fspeedup, "w");
     if (fp == NULL) {
         perror(graminit_c);
         Py_Exit(1);
     }
-    if (Py_DebugFlag)
-      printf("\n\n#########################\n"
-             "#Writing %s ...\n", graminit_c);
-    printgrammar(g, fp);
+    if (fp2 == NULL) {
+        perror(fspeedup);
+        Py_Exit(1);
+    }
+    if (Py_DebugFlag){
+        printf("\n\n#########################\n#Writing %s ...\n", graminit_c);
+        printf("\n\n#########################\n#Writing %s ...\n", fspeedup);
+    }
+    printgrammar(g, fp, fp2);
     fclose(fp);
+    fclose(fp2);
+
     fp = fopen(graminit_h, "w");
     if (fp == NULL) {
         perror(graminit_h);

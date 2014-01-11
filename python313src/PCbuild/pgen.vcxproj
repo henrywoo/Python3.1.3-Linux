@@ -117,6 +117,7 @@
     <ClInclude Include="..\Include\pgen.h" />
     <ClInclude Include="..\Include\pgenheaders.h" />
     <ClInclude Include="..\Include\Python.h" />
+    <ClInclude Include="..\Include\speedparse.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Grammar\Grammar" />

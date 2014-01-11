@@ -432,6 +432,7 @@
     <ClInclude Include="..\Include\rangeobject.h" />
     <ClInclude Include="..\Include\setobject.h" />
     <ClInclude Include="..\Include\sliceobject.h" />
+    <ClInclude Include="..\Include\speedparse.h" />
     <ClInclude Include="..\Include\structmember.h" />
     <ClInclude Include="..\Include\structseq.h" />
     <ClInclude Include="..\Include\symtable.h" />
