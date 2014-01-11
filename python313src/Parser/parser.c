@@ -201,8 +201,9 @@ static int classify(parser_state *ps, int type, char *str)
     grammar *g = ps->p_grammar;
     register int n = g->g_ll.ll_nlabels;
     if (type == NAME) {
+        register int i;
 #ifdef SPEEDUPPARSE
-        for (int i = 0; i < 34;++i){
+        for (i = 0; i < 34;++i){
             if (type2label2[i].lb_str[0] == str[0] && strcmp(type2label2[i].lb_str,str)==0){
                 return type2label2[i].lb_type;
             }
@@ -211,7 +212,6 @@ static int classify(parser_state *ps, int type, char *str)
 #endif
         register char *s = str;
         register label *l = g->g_ll.ll_label;
-        register int i;
         for (i = n; i > 0; i--, l++) {
             if (l->lb_type != NAME || l->lb_str == NULL ||
                 l->lb_str[0] != s[0] ||

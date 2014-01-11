@@ -2,7 +2,7 @@
 i=1
 while i>0:
   i-=1
-else:
+else:.
   print("hello")
 s="python"
 d={}
