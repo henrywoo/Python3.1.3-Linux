@@ -1781,7 +1781,7 @@ static int init_builtin(char *); /* Forward */
 static PyObject *
 load_module(char *name, FILE *fp, char *pathname, int type, PyObject *loader)
 {
-    printf("load_module fpath=%s\n",pathname);
+    //printf("load_module fpath=%s\n",pathname);
     PyObject *modules;
     PyObject *m;
     int err;
