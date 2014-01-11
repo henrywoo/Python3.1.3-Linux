@@ -43,4 +43,4 @@ New features:
 
 2. Python parser speed up, faster DFA graph lookup
 
-3. a new keyword "until"
+3. A new keyword "until"
