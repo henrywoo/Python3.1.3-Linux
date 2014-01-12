@@ -3,6 +3,10 @@ python313src
 
 Henry Fuheng Wu's Python 3.1.3 Linux Repo
 
+Waht is Python?
+
+Python is like a virtual CPU (the evaluator), and storage which has 3 things: code objects, state objects, and “regular” objects. The evaluator evaluates the code objects in the context of state objects; the state objects have pointers to namespaces which contain regular objects which the evaluator uses.
+
 
 New features:
 
