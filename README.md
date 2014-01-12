@@ -48,3 +48,8 @@ New features:
 2. Python parser speed up, faster DFA graph lookup
 
 3. A new keyword "until"
+
+
+Thinking on:
+-- GIL --
+-- Memory --
