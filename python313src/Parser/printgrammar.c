@@ -149,71 +149,70 @@ printlabels(grammar *g, FILE *fp, FILE *fp2)
     fprintf(fp2, "#define labelindex2string label\n"
         "labelindex2string type2label2[%d] = { \n",nstr);
     for (i = 0; i < nstr; ++i){
-        fprintf(fp2, "{%d, \"%s\"},\n", tmp2[i].lb_type, tmp2[i].lb_str);
+        fprintf(fp2, "  {%d, \"%s\"},\n", tmp2[i].lb_type, tmp2[i].lb_str);
     }
     fprintf(fp2, "};\n");
-    fprintf(fp2, "\n#define SPEEDUPPARSE\n\
-    /*#define ENDMARKER	0\n\
-    #define NAME		1\n\
-    #define NUMBER		2\n\
-    #define STRING		3\n\
-    #define NEWLINE		4\n\
-    #define INDENT		5\n\
-    #define DEDENT		6\n\
-    #define LPAR		7\n\
-    #define RPAR		8\n\
-    #define LSQB		9\n\
-    #define RSQB		10\n\
-    #define COLON		11\n\
-    #define COMMA		12\n\
-    #define SEMI		13\n\
-    #define PLUS		14\n\
-    #define MINUS		15\n\
-    #define STAR		16\n\
-    #define SLASH		17\n\
-    #define VBAR		18\n\
-    #define AMPER		19\n\
-    #define LESS		20\n\
-    #define GREATER		21\n\
-    #define EQUAL		22\n\
-    #define DOT		23\n\
-    #define PERCENT		24\n\
-    //#define BACKQUOTE	25\n\
-    #define LBRACE		26\n\
-    #define RBRACE		27\n\
-    #define EQEQUAL		28\n\
-    #define NOTEQUAL	29\n\
-    #define LESSEQUAL	30\n\
-    #define GREATEREQUAL	31\n\
-    #define TILDE		32\n\
-    #define CIRCUMFLEX	33\n\
-    #define LEFTSHIFT	34\n\
-    #define RIGHTSHIFT	35\n\
-    #define DOUBLESTAR	36\n\
-    #define PLUSEQUAL	37\n\
-    #define MINEQUAL	38\n\
-    #define STAREQUAL	39\n\
-    #define SLASHEQUAL	40\n\
-    #define PERCENTEQUAL	41\n\
-    #define AMPEREQUAL	42\n\
-    #define VBAREQUAL	43\n\
-    #define CIRCUMFLEXEQUAL	44\n\
-    #define LEFTSHIFTEQUAL	45\n\
-    #define RIGHTSHIFTEQUAL	46\n\
-    #define DOUBLESTAREQUAL	47\n\
-    #define DOUBLESLASH	48\n\
-    #define DOUBLESLASHEQUAL 49\n\
-    #define AT              50	\n\
-    #define RARROW          51\n\
-    #define ELLIPSIS        52\n\
-    #define OP		53\n\
-    #define ERRORTOKEN	54\n\
-    #define N_TOKENS	55\n\
-    #define NT_OFFSET		256\n\
-    #define ISTERMINAL(x)		((x) < NT_OFFSET)\n\
-    #define ISNONTERMINAL(x)	((x) >= NT_OFFSET)\n\
-    #define ISEOF(x)		((x) == ENDMARKER)*/\n");
+    fprintf(fp2, "\n#define SPEEDUPPARSE\n"
+    "/*#define ENDMARKER	0\n"
+    "#define NAME		1\n"
+    "#define NUMBER		2\n"
+    "#define STRING		3\n"
+    "#define NEWLINE		4\n"
+    "#define INDENT		5\n"
+    "#define DEDENT		6\n"
+    "#define LPAR		7\n"
+    "#define RPAR		8\n"
+    "#define LSQB		9\n"
+    "#define RSQB		10\n"
+    "#define COLON		11\n"
+    "#define COMMA		12\n"
+    "#define SEMI		13\n"
+    "#define PLUS		14\n"
+    "#define MINUS		15\n"
+    "#define STAR		16\n"
+    "#define SLASH		17\n"
+    "#define VBAR		18\n"
+    "#define AMPER		19\n"
+    "#define LESS		20\n"
+    "#define GREATER		21\n"
+    "#define EQUAL		22\n"
+    "#define DOT		23\n"
+    "#define PERCENT		24\n"
+    "//#define BACKQUOTE	25\n"
+    "#define LBRACE		26\n"
+    "#define RBRACE		27\n"
+    "#define EQEQUAL		28\n"
+    "#define NOTEQUAL	29\n"
+    "#define LESSEQUAL	30\n"
+    "#define GREATEREQUAL	31\n"
+    "#define TILDE		32\n"
+    "#define CIRCUMFLEX	33\n"
+    "#define LEFTSHIFT	34\n"
+    "#define RIGHTSHIFT	35\n"
+    "#define DOUBLESTAR	36\n"
+    "#define PLUSEQUAL	37\n"
+    "#define MINEQUAL	38\n"
+    "#define STAREQUAL	39\n"
+    "#define SLASHEQUAL	40\n"
+    "#define PERCENTEQUAL	41\n"
+    "#define AMPEREQUAL	42\n"
+    "#define VBAREQUAL	43\n"
+    "#define CIRCUMFLEXEQUAL	44\n"
+    "#define LEFTSHIFTEQUAL	45\n"
+    "#define RIGHTSHIFTEQUAL	46\n"
+    "#define DOUBLESTAREQUAL	47\n"
+    "#define DOUBLESLASH	48\n"
+    "#define DOUBLESLASHEQUAL 49\n"
+    "#define AT              50	\n"
+    "#define RARROW          51\n"
+    "#define ELLIPSIS        52\n"
+    "#define OP		53\n"
+    "#define ERRORTOKEN	54\n"
+    "#define N_TOKENS	55\n"
+    "#define NT_OFFSET		256\n"
+    "#define ISTERMINAL(x)		((x) < NT_OFFSET)\n"
+    "#define ISNONTERMINAL(x)	((x) >= NT_OFFSET)\n"
+    "#define ISEOF(x)		((x) == ENDMARKER)*/\n");
     free(tmp1);
     free(tmp2);
-    
 }

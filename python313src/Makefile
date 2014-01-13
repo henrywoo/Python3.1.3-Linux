@@ -35,7 +35,7 @@ MAINCC=		$(CC)
 LINKCC=		$(PURIFY) $(MAINCC)
 AR=		ar
 RANLIB=		ranlib
-SVNVERSION=	echo Unversioned directory
+SVNVERSION=	svnversion $(srcdir)
 
 GNULD=		yes
 

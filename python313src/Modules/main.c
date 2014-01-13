@@ -260,6 +260,26 @@ static int RunMainFromImporter(wchar_t *filename)
 #include <node.h>
 #include <parsetok.h>
 #include <errcode.h>
+char* errorcode2txt[] = {
+    "No error",
+    "End Of File",
+    "Interrupted",
+    "Bad token",
+    "Syntax error",
+    "Ran out of memory",
+    "Parsing complete",
+    "Execution error",
+    "Inconsistent mixing of tabs and spaces",
+    "Node had too many children",
+    "Too many indentation levels",
+    "No matching outer block for dedent",
+    "Error in decoding into Unicode",
+    "EOF in triple-quoted string",
+    "EOL in single-quoted string",
+    "Unexpected characters after a line continuation",
+    "Invalid characters in identifier"
+};
+#define ERR2TXT(x) errorcode2txt[x-E_OK]
 int syntaxcheck(FILE* fp,const char* fname){
     extern grammar _PyParser_Grammar;
     perrdetail e;
@@ -660,7 +680,7 @@ Py_Main(int argc, wchar_t **argv)
             PyObject *filenameObj = NULL;
             char *p_cfilename = "<stdin>";
             if (cfilename) {
-                filenameObj = PyUnicode_FromString(cfilename, strlen(cfilename));
+                filenameObj = PyUnicode_FromString(cfilename);
                 if (filenameObj != NULL)
                     p_cfilename = _PyUnicode_AsString(filenameObj);
                 else
