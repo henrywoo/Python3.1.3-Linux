@@ -607,23 +607,32 @@ Py_Main(int argc, wchar_t **argv)
             sts = RunMainFromImporter(filename);
         }
 
+        char cfilename[PATH_MAX];
         if (sts==-1 && filename!=NULL) {
-            if ((fp = _wfopen(filename, L"r")) == NULL) {
-                char cfilename[PATH_MAX];
-                size_t r = wcstombs(cfilename, filename, PATH_MAX);
-                if (r == PATH_MAX)
-                    /* cfilename is not null-terminated;
-                     * forcefully null-terminating it
-                     * might break the shift state */
-                    strcpy(cfilename, "<file name too long>");
-                if (r == ((size_t)-1))
-                    strcpy(cfilename, "<unprintable file name>");
-                fprintf(stderr, "%ls: can't open file '%s': [Errno %d] %s\n",
-                    argv[0], cfilename, errno, strerror(errno));
-
-                return 2;
+            char tmp[PATH_MAX];
+            size_t r = wcstombs(tmp, filename, PATH_MAX);
+            if (r == PATH_MAX){
+                strcpy(tmp, "<file name too long>");
+            }else if (r == ((size_t)-1)){
+                strcpy(tmp, "<unprintable file name>");
             }
-            else if (skipfirstline) {
+            strcpy(cfilename, tmp);
+            enum { len = 3 };
+            char* surfix[len] = {"py","pyc","pyo"};
+            int k = 0;
+            while (1){
+                if (access(cfilename, 0) == -1) {
+                    if (k > len - 1){
+                        return 2;
+                    }
+                    sprintf(cfilename, "%s.%s", tmp,surfix[k++]);
+                }else {
+                    break;
+                }
+            }
+            if ((fp = fopen(cfilename, "r")) == NULL) {
+                return 2;
+            } else if (skipfirstline) {
                 int ch;
                 /* Push back first newline so line numbers
                    remain the same */
@@ -634,12 +643,13 @@ Py_Main(int argc, wchar_t **argv)
                     }
                 }
             }
+
             {
                 /* XXX: does this work on Win/Win64? (see posix_fstat) */
                 struct stat sb;
                 if (fstat(fileno(fp), &sb) == 0 &&
                     S_ISDIR(sb.st_mode)) {
-                    fprintf(stderr, "%ls: '%ls' is a directory, cannot continue\n", argv[0], filename);
+                    fprintf(stderr, "%ls: '%s' is a directory, cannot continue\n", argv[0], cfilename);
                     fclose(fp);
                     return 1;
                 }
@@ -649,9 +659,8 @@ Py_Main(int argc, wchar_t **argv)
         if (sts==-1) {
             PyObject *filenameObj = NULL;
             char *p_cfilename = "<stdin>";
-            if (filename) {
-                filenameObj = PyUnicode_FromWideChar(
-                    filename, wcslen(filename));
+            if (cfilename) {
+                filenameObj = PyUnicode_FromString(cfilename, strlen(cfilename));
                 if (filenameObj != NULL)
                     p_cfilename = _PyUnicode_AsString(filenameObj);
                 else
@@ -665,7 +674,7 @@ Py_Main(int argc, wchar_t **argv)
                 sts = PyRun_AnyFileExFlags(
                     fp,
                     p_cfilename,
-                    filename != NULL, &cf) != 0;
+                    cfilename != NULL, &cf) != 0;
             }
             Py_XDECREF(filenameObj);
         }
