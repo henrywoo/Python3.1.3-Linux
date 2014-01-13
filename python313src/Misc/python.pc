@@ -1,4 +1,4 @@
-prefix=/usr/local/python313
+prefix=/usr/local/py313
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

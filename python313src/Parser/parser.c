@@ -364,7 +364,7 @@ int PyParser_AddToken(register parser_state *ps, register int type, char *str,
                     s_pop(&ps->p_stack);
                     if (s_empty(&ps->p_stack)) {
                         D(printf("  ACCEPT.\n"));
-                        printtree(ps);
+                        //printtree(ps);
                         return E_DONE;
                     }
                     d = ps->p_stack.s_top->s_dfa;

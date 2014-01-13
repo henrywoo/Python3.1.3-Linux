@@ -34,7 +34,7 @@ MAINCC=		$(CC)
 LINKCC=		$(PURIFY) $(MAINCC)
 AR=		ar
 RANLIB=		ranlib
-SVNVERSION=	svnversion $(srcdir)
+SVNVERSION=	echo Unversioned directory
 
 GNULD=		yes
 
@@ -57,8 +57,8 @@ INSTALL_SHARED= ${INSTALL} -m 555
 MAKESETUP=      $(srcdir)/Modules/makesetup
 
 # Compiler options
-OPT=		-g -Wall -Wstrict-prototypes
-BASECFLAGS=	 -fno-strict-aliasing
+OPT=		-DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes
+BASECFLAGS=	
 CFLAGS=		$(BASECFLAGS) -g -O2 $(OPT) $(EXTRA_CFLAGS)
 # Both CPPFLAGS and LDFLAGS need to contain the shell's value for setup.py to
 # be able to build extension modules using the directories specified in the
@@ -71,16 +71,16 @@ CCSHARED=	-fPIC
 LINKFORSHARED=	-Xlinker -export-dynamic
 ARFLAGS=	rc
 # Extra C flags added for building the interpreter object files.
-CFLAGSFORSHARED=$(CCSHARED)
+CFLAGSFORSHARED=
 # C flags used for building the interpreter object files
 PY_CFLAGS=	$(CFLAGS) $(CPPFLAGS) $(CFLAGSFORSHARED) -DPy_BUILD_CORE
 
 
 # Machine-dependent subdirectories
-MACHDEP=	linux2
+MACHDEP=	linux3
 
 # Install prefix for architecture-independent files
-prefix=		/usr/local/python313
+prefix=		/usr/local/py313
 
 # Install prefix for architecture-dependent files
 exec_prefix=	${prefix}
@@ -129,7 +129,7 @@ MACOSX_DEPLOYMENT_TARGET=
 OTHER_LIBTOOL_OPT=
 
 # Environment to run shared python without installed libraries
-RUNSHARED=       LD_LIBRARY_PATH=/nfs/src/python313src/python313src:
+RUNSHARED=       
 
 # Modes for directories, executables and data files created by the
 # install process.  Default to user-only-writable for all file types.
@@ -138,7 +138,7 @@ EXEMODE=	755
 FILEMODE=	644
 
 # configure script arguments
-CONFIG_ARGS=	 '--prefix=/usr/local/python313' '--with-pydebug' '--enable-shared' '--with-threads'
+CONFIG_ARGS=	 '--prefix=/usr/local/py313'
 
 
 # Subdirectories with code
@@ -155,11 +155,11 @@ DIST=		$(DISTFILES) $(DISTDIRS)
 
 
 LIBRARY=	libpython$(VERSION).a
-LDLIBRARY=      libpython$(VERSION).so
-BLDLIBRARY=     -L. -lpython$(VERSION)
+LDLIBRARY=      libpython$(VERSION).a
+BLDLIBRARY=     $(LDLIBRARY)
 DLLLIBRARY=	
 LDLIBRARYDIR=   
-INSTSONAME=	libpython$(VERSION).so.1.0
+INSTSONAME=	$(LDLIBRARY)
 
 
 LIBS=		-lpthread -ldl  -lutil

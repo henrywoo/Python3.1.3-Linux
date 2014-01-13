@@ -135,7 +135,7 @@ printlabels(grammar *g, FILE *fp, FILE *fp2)
             //fprintf(fp, "{%d, 0},//%d\n", l->lb_type, g->g_ll.ll_nlabels - i - 1);
         }else{
             if (strcmp(l->lb_str, "EMPTY") != 0){
-                static j = 0;
+                static int j = 0;
                 tmp2[j].lb_type = ilabel;
                 tmp2[j++].lb_str = l->lb_str;
             }
