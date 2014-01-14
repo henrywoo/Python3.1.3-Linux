@@ -49,7 +49,22 @@ New features:
 
 3. A new keyword "until"
 
+4. execute any of .py, .pyc or .pyo file without specifying the suffix explicitly
+        $ll
+        total 12
+        drwxr-xr-x 2 root root 4096 Jan 14 07:18 ./
+        drwxr-xr-x 3 root root 4096 Jan 14 07:18 ../
+        -rw-r--r-- 1 root root  178 Jan 14 07:17 x.pyo
+        $./../python3 x
+        123
+        $./../python3 x.py
+        123
+        $
+
+
 
 Thinking on:
+
 -- GIL --
+
 -- Memory --
