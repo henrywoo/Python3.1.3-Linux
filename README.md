@@ -50,7 +50,8 @@ New features:
 3. A new keyword "until"
 
 4. execute any of .py, .pyc or .pyo file without specifying the suffix explicitly
-        $ll
+
+        $ls -al
         total 12
         drwxr-xr-x 2 root root 4096 Jan 14 07:18 ./
         drwxr-xr-x 3 root root 4096 Jan 14 07:18 ../
@@ -65,6 +66,6 @@ New features:
 
 Thinking on:
 
--- GIL --
+1. -- GIL --
 
--- Memory --
+2. -- Memory --
