@@ -1,0 +1,5 @@
+#!/usr/local/py313/bin/python3.1
+
+import pydoc
+if __name__ == '__main__':
+    pydoc.cli()

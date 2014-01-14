@@ -330,11 +330,11 @@ Py_Main(int argc, wchar_t **argv)
 
     PySys_ResetWarnOptions();
     unsigned int optind = 1;
+    char cfilename[PATH_MAX];
     while ((c = _PyOS_GetOpt(argc, argv, PROGRAM_OPTS)) != EOF) {
         ++optind;
         if (c == 'l'){
             Py_SyntaxCheckFlag = 1;
-            char cfilename[PATH_MAX];
             register int i;
             for (i = optind; i < argc;++i){
                 //////////////////////////////////////////////////////////////////////////
@@ -522,42 +522,8 @@ Py_Main(int argc, wchar_t **argv)
 #endif /* !MS_WINDOWS */
         /* Leave stderr alone - it should be unbuffered anyway. */
     }
-#ifdef __VMS
-    else {
-        setvbuf (stdout, (char *)NULL, _IOLBF, BUFSIZ);
-    }
-#endif /* __VMS */
 
-#ifdef __APPLE__
-    /* On MacOS X, when the Python interpreter is embedded in an
-       application bundle, it gets executed by a bootstrapping script
-       that does os.execve() with an argv[0] that's different from the
-       actual Python executable. This is needed to keep the Finder happy,
-       or rather, to work around Apple's overly strict requirements of
-       the process name. However, we still need a usable sys.executable,
-       so the actual executable path is passed in an environment variable.
-       See Lib/plat-mac/bundlebuiler.py for details about the bootstrap
-       script. */
-    if ((p = Py_GETENV("PYTHONEXECUTABLE")) && *p != '\0') {
-        wchar_t* buffer;
-        size_t len = strlen(p);
-        size_t r;
-
-        buffer = malloc(len * sizeof(wchar_t));
-        if (buffer == NULL) {
-            Py_FatalError(
-               "not enough memory to copy PYTHONEXECUTABLE");
-        }
-
-        r = mbstowcs(buffer, p, len);
-        Py_SetProgramName(buffer);
-        /* buffer is now handed off - do not free */
-    } else {
-        Py_SetProgramName(argv[0]);
-    }
-#else
     Py_SetProgramName(argv[0]);
-#endif
     Py_Initialize();//<--->Py_Finalize();
 
     if (Py_VerboseFlag ||
@@ -627,52 +593,65 @@ Py_Main(int argc, wchar_t **argv)
             sts = RunMainFromImporter(filename);
         }
 
-        char cfilename[PATH_MAX];
+        // open the file
         if (sts==-1 && filename!=NULL) {
-            char tmp[PATH_MAX];
-            size_t r = wcstombs(tmp, filename, PATH_MAX);
-            if (r == PATH_MAX){
-                strcpy(tmp, "<file name too long>");
-            }else if (r == ((size_t)-1)){
-                strcpy(tmp, "<unprintable file name>");
-            }
-            strcpy(cfilename, tmp);
-            enum { len = 3 };
-            char* surfix[len] = {"py","pyc","pyo"};
-            int k = 0;
-            while (1){
-                if (access(cfilename, 0) == -1) {
-                    if (k > len - 1){
-                        return 2;
-                    }
-                    sprintf(cfilename, "%s.%s", tmp,surfix[k++]);
-                }else {
-                    break;
+            if ((fp = _wfopen(filename, L"r")) == NULL) {
+                int sz=wcslen(filename);
+                if (sz>3 && wcscmp(filename+sz-3,L".py")==0){
+                    filename[sz-3]=L'\0';
                 }
-            }
-            if ((fp = fopen(cfilename, "r")) == NULL) {
-                return 2;
-            } else if (skipfirstline) {
-                int ch;
-                /* Push back first newline so line numbers
-                   remain the same */
-                while ((ch = getc(fp)) != EOF) {
-                    if (ch == '\n') {
-                        (void)ungetc(ch, fp);
+                if (sz>4 && (wcscmp(filename+sz-4,L".pyc")==0 || wcscmp(filename+sz-4,L".pyo")==0)){
+                    filename[sz-4]=L'\0';
+                }
+                char tmp[PATH_MAX];
+                size_t r = wcstombs(tmp, filename, PATH_MAX);
+                if (r == PATH_MAX){
+                    strcpy(tmp, "<file name too long>");
+                }else if (r == ((size_t)-1)){
+                    strcpy(tmp, "<unprintable file name>");
+                }
+                strcpy(cfilename, tmp);
+                enum { len = 3 };
+                char* surfix[len] = {"py","pyc","pyo"};
+                int k = 0;
+                while (1){
+                    if (access(cfilename, 0) == -1) {
+                        if (k > len - 1){
+                            wprintf(L"ERROR:%s.[py|pyc|pyo] is not found.\n",tmp);
+                            return 2;
+                        }
+                        sprintf(cfilename, "%s.%s", tmp,surfix[k++]);
+                    }else {
                         break;
                     }
                 }
-            }
-
-            {
-                /* XXX: does this work on Win/Win64? (see posix_fstat) */
-                struct stat sb;
-                if (fstat(fileno(fp), &sb) == 0 &&
-                    S_ISDIR(sb.st_mode)) {
-                    fprintf(stderr, "%ls: '%s' is a directory, cannot continue\n", argv[0], cfilename);
-                    fclose(fp);
-                    return 1;
+                if ((fp = fopen(cfilename, "r")) == NULL) {
+                    return 2;
                 }
+            }else{
+                wcstombs(cfilename, filename, PATH_MAX);
+            }
+        }
+        // skip first line?
+        if (fp!=NULL && skipfirstline) {
+            int ch;
+            /* Push back first newline so line numbers remain the same */
+            while ((ch = getc(fp)) != EOF) {
+                if (ch == '\n') {
+                    (void)ungetc(ch, fp);
+                    break;
+                }
+            }
+        }
+
+        {
+            /* XXX: does this work on Win/Win64? (see posix_fstat) */
+            struct stat sb;
+            if (fstat(fileno(fp), &sb) == 0 &&
+                S_ISDIR(sb.st_mode)) {
+                fprintf(stderr, "%ls: '%s' is a directory, cannot continue\n", argv[0], cfilename);
+                fclose(fp);
+                return 1;
             }
         }
 
